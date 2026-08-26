@@ -1,0 +1,6 @@
+{
+  "name": "Spirit of Faith Admin Broadcast Portal",
+  "description": "On-the-go push notification broadcast and poller management hub for Spirit of Faith church administrators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

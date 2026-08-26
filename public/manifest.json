@@ -1,0 +1,18 @@
+{
+  "short_name": "SOF Broadcast",
+  "name": "Spirit of Faith Admin Broadcast Portal",
+  "description": "On-the-go Push Notification & Automation Hub for Spirit of Faith Administrators",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B132B",
+  "theme_color": "#0B132B",
+  "display": "standalone",
+  "orientation": "portrait"
+}
