@@ -36,6 +36,7 @@ interface AdminContextType {
   pollerStatus: PollerStatus;
   isPollingLoading: boolean;
   triggerPollNow: () => Promise<{ success: boolean; message: string; newItemsFound: boolean }>;
+  refreshStatus: () => Promise<void>;
   
   broadcastHistory: BroadcastHistoryItem[];
   sendBroadcast: (payload: BroadcastPayload) => Promise<BroadcastResult>;
@@ -442,6 +443,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         pollerStatus,
         isPollingLoading,
         triggerPollNow,
+        refreshStatus,
         broadcastHistory,
         sendBroadcast,
         deleteHistoryItem,

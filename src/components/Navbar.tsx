@@ -28,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     pollerStatus,
     isPollingLoading,
     triggerPollNow,
+    refreshStatus,
     theme,
     toggleTheme,
   } = useAdmin();
@@ -140,16 +141,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Quick Trigger Sync */}
             <button
               id="btn-quick-poll"
-              onClick={triggerPollNow}
-              disabled={isPollingLoading}
-              title="Force Immediate Poller Sync"
-              className="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 dark:border-slate-700/70 dark:text-slate-200 transition-all flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
+              onClick={async () => {
+                await refreshStatus();
+              }}
+              title="Refresh Dashboard Metrics & Counts"
+              className="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 dark:border-slate-700/70 dark:text-slate-200 transition-all flex items-center gap-1.5 active:scale-95"
             >
-              <RefreshCw
-                className={`w-4 h-4 text-blue-600 dark:text-blue-400 ${
-                  isPollingLoading ? 'animate-spin' : ''
-                }`}
-              />
+              <RefreshCw className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="hidden sm:inline">Sync Now</span>
             </button>
 
