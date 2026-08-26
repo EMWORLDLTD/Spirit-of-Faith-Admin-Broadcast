@@ -107,3 +107,12 @@ export interface ToastMessage {
   description?: string;
   duration?: number;
 }
+
+export interface RegisteredDevice {
+  token: string;
+  platform: 'ios' | 'android' | 'web';
+  registeredAt: string;
+  lastActiveAt: string;
+  deviceModel?: string;
+  appVersion?: string;
+}

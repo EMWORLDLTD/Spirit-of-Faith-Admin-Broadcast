@@ -13,8 +13,8 @@ import {
 
 interface NavbarProps {
   onOpenSettings: () => void;
-  activeTab: 'composer' | 'history' | 'poller';
-  setActiveTab: (tab: 'composer' | 'history' | 'poller') => void;
+  activeTab: 'composer' | 'history' | 'poller' | 'devices';
+  setActiveTab: (tab: 'composer' | 'history' | 'poller' | 'devices') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -96,6 +96,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Radio className="w-3.5 h-3.5" />
               Broadcast Composer
+            </button>
+            <button
+              id="tab-btn-devices"
+              onClick={() => setActiveTab('devices')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                activeTab === 'devices'
+                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/25'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-slate-400 dark:hover:text-white dark:hover:bg-transparent'
+              }`}
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              Registered Devices
             </button>
             <button
               id="tab-btn-poller"

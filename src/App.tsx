@@ -7,6 +7,7 @@ import { BroadcastComposer } from './components/BroadcastComposer';
 import { LockScreenSimulator } from './components/LockScreenSimulator';
 import { SafetyTestingModal } from './components/SafetyTestingModal';
 import { BroadcastHistory } from './components/BroadcastHistory';
+import { DeviceManager } from './components/DeviceManager';
 import { SettingsModal } from './components/SettingsModal';
 import { ToastContainer } from './components/ToastContainer';
 import { PwaInstallBanner } from './components/PwaInstallBanner';
@@ -14,8 +15,8 @@ import { BroadcastHistoryItem } from './types';
 import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
 const AdminPortalMain: React.FC = () => {
-  const { auth, activeDraft, updateActiveDraft } = useAdmin();
-  const [activeTab, setActiveTab] = useState<'composer' | 'history' | 'poller'>('composer');
+  const { auth, activeDraft, updateActiveDraft, pollerStatus, setSavedTestToken } = useAdmin();
+  const [activeTab, setActiveTab] = useState<'composer' | 'history' | 'poller' | 'devices'>('composer');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [safetyModal, setSafetyModal] = useState<{
     isOpen: boolean;
@@ -44,6 +45,30 @@ const AdminPortalMain: React.FC = () => {
     setActiveTab('composer');
   };
 
+  const handleComposeWithLatestTeaching = () => {
+    const teaching = pollerStatus.lastDetectedTeaching;
+    if (teaching) {
+      updateActiveDraft({
+        title: `New Message: ${teaching.title}`,
+        subtitle: `${teaching.speaker || 'Senior Pastor'} • Sunday Service`,
+        body: `Listen to the latest message "${teaching.title}". Tap to listen now on Spirit of Faith.`,
+        type: 'audio',
+        imageUrl: teaching.imageUrl || undefined,
+        data: {
+          type: 'audio',
+          audioId: teaching.id,
+          audioUrl: teaching.audioUrl,
+        },
+      });
+    }
+    setActiveTab('composer');
+  };
+
+  const handleSendTestToSpecificDevice = (token: string, label: string) => {
+    setSavedTestToken(token);
+    setSafetyModal({ isOpen: true, type: 'test' });
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0B132B] dark:text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white transition-colors">
       {/* Toast Notification Container */}
@@ -65,7 +90,7 @@ const AdminPortalMain: React.FC = () => {
         {activeTab === 'composer' && (
           <div className="space-y-6">
             {/* Quick Poller Status Mini-Bar */}
-            <PollerDashboard onComposeWithTeaching={() => setActiveTab('composer')} />
+            <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
 
             {/* Side-by-side or stacked Composer + Simulator */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -87,21 +112,26 @@ const AdminPortalMain: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 2: Automation & 15-Min Poller Status */}
+        {/* Tab 2: Registered Devices Manager */}
+        {activeTab === 'devices' && (
+          <DeviceManager onSendTestToDevice={handleSendTestToSpecificDevice} />
+        )}
+
+        {/* Tab 3: Automation & 15-Min Poller Status */}
         {activeTab === 'poller' && (
           <div className="space-y-6">
-            <PollerDashboard onComposeWithTeaching={() => setActiveTab('composer')} />
+            <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
             <div className="p-6 rounded-2xl bg-white dark:bg-[#1C2541]/70 border border-slate-200 dark:border-slate-700/80 shadow-md dark:shadow-lg text-xs text-slate-600 dark:text-slate-300 space-y-3">
               <h3 className="font-outfit font-bold text-base text-slate-900 dark:text-white">
                 How Background Automation & Polling Works
               </h3>
               <p className="leading-relaxed">
-                The Cloudflare Worker runs a Cron Trigger every 15 minutes to poll the church's RSS podcast feed and the Daily Devotional schedule. When a new audio sermon or devotional is detected, the poller verifies that a push notification has not yet been broadcast for that item ID, then compiles and dispatches a rich Expo Push Notification to all active tokens in the device registry.
+                The Cloudflare Worker runs a Cron Trigger every 15 minutes to poll the church's audio teaching feed and the Daily Devotional schedule. When a new audio sermon or devotional is detected, the poller verifies that a push notification has not yet been broadcast for that item ID, then compiles and dispatches a rich Expo Push Notification to all active tokens in the device registry.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                   <span className="font-semibold text-blue-600 dark:text-blue-400 block mb-1">1. Audio Sermons</span>
-                  <span>Scrapes RSS enclosures, resolves high-res cover art, and matches speaker metadata.</span>
+                  <span>Scrapes messages feed, resolves high-res cover art, and matches speaker metadata.</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                   <span className="font-semibold text-amber-600 dark:text-amber-400 block mb-1">2. Daily Devotionals</span>
@@ -116,7 +146,7 @@ const AdminPortalMain: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 3: Broadcast History Log */}
+        {/* Tab 4: Broadcast History Log */}
         {activeTab === 'history' && (
           <BroadcastHistory onDuplicateToComposer={handleDuplicateToComposer} />
         )}

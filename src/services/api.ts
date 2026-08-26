@@ -335,6 +335,36 @@ export class WorkerApiService {
       };
     }
   }
+
+  /**
+   * 4. GET /api/admin/devices
+   */
+  public async getRegisteredDevices(): Promise<{ success: boolean; count: number; devices: any[] }> {
+    if (!this.config.workerUrl?.trim() || !this.config.adminKey?.trim()) {
+      return { success: false, count: 0, devices: [] };
+    }
+
+    try {
+      const url = this.getCleanUrl('/api/admin/devices');
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        return { success: false, count: 0, devices: [] };
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        count: data.count || (data.devices ? data.devices.length : 0),
+        devices: data.devices || [],
+      };
+    } catch {
+      return { success: false, count: 0, devices: [] };
+    }
+  }
 }
 
 export const apiService = WorkerApiService.getInstance();
