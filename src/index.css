@@ -4,6 +4,11 @@
 
 @layer base {
   body {
-    @apply transition-colors duration-200;
+    @apply transition-colors duration-200 bg-slate-50 text-slate-900 dark:bg-[#09090b] dark:text-zinc-100;
   }
 }
+
+.bento-card {
+  @apply rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm backdrop-blur-md transition-all;
+}
+

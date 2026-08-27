@@ -70,7 +70,7 @@ const AdminPortalMain: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0B132B] dark:text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white transition-colors">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#09090b] dark:text-zinc-100 flex flex-col selection:bg-blue-600 selection:text-white transition-colors">
       {/* Toast Notification Container */}
       <ToastContainer />
 
@@ -82,20 +82,20 @@ const AdminPortalMain: React.FC = () => {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* PWA Mobile Install Banner */}
         <PwaInstallBanner />
 
         {/* Tab 1: Broadcast Composer & Live Lock-Screen Simulator */}
         {activeTab === 'composer' && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Quick Poller Status Mini-Bar */}
             <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
 
             {/* Side-by-side or stacked Composer + Simulator */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
               {/* Left/Main Column: Broadcast Composer */}
-              <div className="lg:col-span-7 space-y-6">
+              <div className="lg:col-span-7 space-y-5">
                 <BroadcastComposer
                   onOpenTestModal={() => setSafetyModal({ isOpen: true, type: 'test' })}
                   onOpenBroadcastModal={() =>
@@ -105,7 +105,7 @@ const AdminPortalMain: React.FC = () => {
               </div>
 
               {/* Right Column: Live Lock-Screen Simulator */}
-              <div className="lg:col-span-5 sticky top-20">
+              <div className="lg:col-span-5 lg:sticky lg:top-20">
                 <LockScreenSimulator draft={activeDraft} />
               </div>
             </div>
@@ -119,27 +119,24 @@ const AdminPortalMain: React.FC = () => {
 
         {/* Tab 3: Automation & 15-Min Poller Status */}
         {activeTab === 'poller' && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#1C2541]/70 border border-slate-200 dark:border-slate-700/80 shadow-md dark:shadow-lg text-xs text-slate-600 dark:text-slate-300 space-y-3">
-              <h3 className="font-outfit font-bold text-base text-slate-900 dark:text-white">
-                How Background Automation & Polling Works
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm text-xs space-y-3">
+              <h3 className="font-outfit font-bold text-sm sm:text-base text-slate-900 dark:text-zinc-100">
+                Automation Architecture
               </h3>
-              <p className="leading-relaxed">
-                The Cloudflare Worker runs a Cron Trigger every 15 minutes to poll the church's audio teaching feed and the Daily Devotional schedule. When a new audio sermon or devotional is detected, the poller verifies that a push notification has not yet been broadcast for that item ID, then compiles and dispatches a rich Expo Push Notification to all active tokens in the device registry.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                  <span className="font-semibold text-blue-600 dark:text-blue-400 block mb-1">1. Audio Sermons</span>
-                  <span>Scrapes messages feed, resolves high-res cover art, and matches speaker metadata.</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
+                  <span className="font-semibold text-blue-600 dark:text-blue-400 block mb-0.5">1. Audio Sermons</span>
+                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Auto-scrapes messages & metadata every 15m.</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                  <span className="font-semibold text-amber-600 dark:text-amber-400 block mb-1">2. Daily Devotionals</span>
-                  <span>Extracts morning scripture readings and generates daily faith confession pushes.</span>
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
+                  <span className="font-semibold text-amber-600 dark:text-amber-400 block mb-0.5">2. Daily Devotionals</span>
+                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Checks morning readings & notifications.</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 block mb-1">3. Expo Push Gateway</span>
-                  <span>Batches payloads in chunks of 100 with exponential backoff and error logging.</span>
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 block mb-0.5">3. Push Gateway</span>
+                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Dispatches push payloads via Expo Push.</span>
                 </div>
               </div>
             </div>
@@ -164,16 +161,10 @@ const AdminPortalMain: React.FC = () => {
       {isSettingsOpen && <SettingsModal onClose={() => setIsSettingsOpen(false)} />}
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 py-4 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-400">Spirit of Faith Church</span>
-            <span>•</span>
-            <span>Admin Broadcast Portal v2.4</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span>Powered by Cloudflare Workers & Expo Push Services</span>
-          </div>
+      <footer className="border-t border-slate-200 dark:border-[#27272a] bg-white/80 dark:bg-[#09090b]/80 py-3 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-[11px] text-slate-500 dark:text-zinc-500">
+          <span className="font-medium text-slate-700 dark:text-zinc-400">Spirit of Faith Admin</span>
+          <span>Expo Push & Cloudflare Workers</span>
         </div>
       </footer>
     </div>

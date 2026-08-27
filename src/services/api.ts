@@ -1,4 +1,4 @@
-import { BroadcastPayload, BroadcastResult, PollerStatus, TeachingItem } from '../types';
+import { AnnouncementItem, BroadcastPayload, BroadcastResult, PollerStatus, TeachingItem } from '../types';
 
 export interface ApiConfig {
   workerUrl: string;
@@ -363,6 +363,106 @@ export class WorkerApiService {
       };
     } catch {
       return { success: false, count: 0, devices: [] };
+    }
+  }
+
+  /**
+   * 5. GET /api/admin/announcements
+   */
+  public async getAnnouncements(): Promise<{ success: boolean; count: number; announcements: AnnouncementItem[] }> {
+    if (!this.config.workerUrl?.trim()) {
+      return { success: false, count: 0, announcements: [] };
+    }
+
+    try {
+      const url = this.getCleanUrl('/api/admin/announcements');
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        // Fallback to public feed if admin auth fails
+        const publicUrl = this.getCleanUrl('/api/announcements');
+        const pubRes = await fetch(publicUrl);
+        if (pubRes.ok) {
+          const pubData = await pubRes.json();
+          return {
+            success: true,
+            count: pubData.count || 0,
+            announcements: pubData.announcements || [],
+          };
+        }
+        return { success: false, count: 0, announcements: [] };
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        count: data.count || 0,
+        announcements: data.announcements || [],
+      };
+    } catch {
+      return { success: false, count: 0, announcements: [] };
+    }
+  }
+
+  /**
+   * 6. POST /api/admin/announcements
+   */
+  public async saveAnnouncement(announcement: Partial<AnnouncementItem>): Promise<{ success: boolean; message?: string; announcement?: AnnouncementItem }> {
+    if (!this.config.workerUrl?.trim()) {
+      return { success: false, message: 'Worker URL not configured' };
+    }
+
+    try {
+      const url = this.getCleanUrl('/api/admin/announcements');
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+        body: JSON.stringify(announcement),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        return { success: false, message: errText || 'Failed to save announcement' };
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.message,
+        announcement: data.announcement,
+      };
+    } catch (err: unknown) {
+      return { success: false, message: err instanceof Error ? err.message : 'Network error' };
+    }
+  }
+
+  /**
+   * 7. DELETE /api/admin/announcements
+   */
+  public async deleteAnnouncement(id: string): Promise<{ success: boolean; message?: string }> {
+    if (!this.config.workerUrl?.trim()) {
+      return { success: false, message: 'Worker URL not configured' };
+    }
+
+    try {
+      const url = this.getCleanUrl(`/api/admin/announcements?id=${encodeURIComponent(id)}`);
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        return { success: false, message: errText || 'Failed to delete announcement' };
+      }
+
+      const data = await response.json();
+      return { success: true, message: data.message || 'Announcement deleted' };
+    } catch (err: unknown) {
+      return { success: false, message: err instanceof Error ? err.message : 'Network error' };
     }
   }
 }

@@ -48,6 +48,19 @@ export interface BroadcastDataPayload {
   [key: string]: unknown;
 }
 
+export interface AnnouncementItem {
+  id: string;
+  title: string;
+  body: string;
+  subtitle?: string;
+  type: NotificationType;
+  imageUrl?: string;
+  createdAt: string;
+  expiresAt?: string;
+  linkUrl?: string;
+  priority?: 'normal' | 'high';
+}
+
 export interface BroadcastPayload {
   title: string;
   subtitle?: string;
@@ -57,6 +70,8 @@ export interface BroadcastPayload {
   data: BroadcastDataPayload;
   isTest: boolean;
   testToken?: string | null;
+  sendPush?: boolean;
+  saveToFeed?: boolean;
 }
 
 export interface BroadcastResult {

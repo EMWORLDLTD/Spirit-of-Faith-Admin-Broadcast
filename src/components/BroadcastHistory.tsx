@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../context/AdminContext';
-import { BroadcastHistoryItem, NotificationType } from '../types';
+import { AnnouncementItem, BroadcastHistoryItem, NotificationType } from '../types';
+import { apiService } from '../services/api';
 import {
   Search,
   Filter,
@@ -18,6 +19,9 @@ import {
   Smartphone,
   Download,
   X,
+  Radio,
+  Layers,
+  RefreshCw,
 } from 'lucide-react';
 
 interface BroadcastHistoryProps {
@@ -34,9 +38,47 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
     addToast,
   } = useAdmin();
 
+  const [activeTab, setActiveTab] = useState<'dispatches' | 'announcements'>('dispatches');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>('all');
   const [inspectPayloadItem, setInspectPayloadItem] = useState<BroadcastHistoryItem | null>(null);
+
+  // Live in-app announcements state
+  const [liveAnnouncements, setLiveAnnouncements] = useState<AnnouncementItem[]>([]);
+  const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(false);
+
+  const fetchLiveAnnouncements = async () => {
+    setIsLoadingAnnouncements(true);
+    const res = await apiService.getAnnouncements();
+    setIsLoadingAnnouncements(false);
+    if (res.success) {
+      setLiveAnnouncements(res.announcements);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'announcements') {
+      fetchLiveAnnouncements();
+    }
+  }, [activeTab]);
+
+  const handleDeleteAnnouncement = async (id: string) => {
+    const res = await apiService.deleteAnnouncement(id);
+    if (res.success) {
+      setLiveAnnouncements((prev) => prev.filter((item) => item.id !== id));
+      addToast({
+        type: 'success',
+        title: 'Announcement Removed',
+        description: 'Removed from mobile app Home screen feed.',
+      });
+    } else {
+      addToast({
+        type: 'error',
+        title: 'Delete Failed',
+        description: res.message || 'Could not delete announcement from server.',
+      });
+    }
+  };
 
   // Filter items
   const filteredHistory = broadcastHistory.filter((item) => {
@@ -50,6 +92,13 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
     if (selectedTypeFilter === 'all') return true;
     if (selectedTypeFilter === 'test') return item.isTest;
     return item.type === selectedTypeFilter && !item.isTest;
+  });
+
+  const filteredAnnouncements = liveAnnouncements.filter((item) => {
+    const matches =
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.body.toLowerCase().includes(searchQuery.toLowerCase());
+    return matches;
   });
 
   const handleExportJson = () => {
@@ -69,288 +118,337 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
   };
 
   return (
-    <div className="space-y-5 animate-in fade-in duration-200">
-      {/* Header & Controls */}
-      <div className="p-5 rounded-2xl bg-white dark:bg-[#1C2541]/80 border border-slate-200 dark:border-slate-700/80 shadow-md dark:shadow-xl backdrop-blur-md">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-700/60">
-          <div>
-            <h2 className="font-outfit font-bold text-lg text-slate-900 dark:text-white">
-              Broadcast History Log
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Auditable records of all push alerts and test dispatches sent through the portal.
-            </p>
-          </div>
+    <div className="space-y-4 sm:space-y-5">
+      {/* Tab Switcher: Dispatches vs In-App Feed */}
+      <div className="flex bg-slate-100 dark:bg-zinc-900 p-1 rounded-2xl border border-slate-200 dark:border-[#27272a] max-w-md">
+        <button
+          type="button"
+          onClick={() => setActiveTab('dispatches')}
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+            activeTab === 'dispatches'
+              ? 'bg-white dark:bg-[#18181b] text-slate-900 dark:text-zinc-100 shadow-sm border border-slate-200 dark:border-[#27272a]'
+              : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+          }`}
+        >
+          <Radio className="w-3.5 h-3.5 text-blue-500" />
+          <span>Broadcast Dispatches</span>
+        </button>
 
-          <div className="flex items-center gap-2">
-            <button
-              id="btn-export-history"
-              onClick={handleExportJson}
-              className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export JSON</span>
-            </button>
-            {broadcastHistory.length > 0 && (
-              <button
-                id="btn-clear-history"
-                onClick={clearHistory}
-                className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/40 text-xs font-semibold text-rose-700 dark:text-rose-300 transition-colors flex items-center gap-1.5"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Clear</span>
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Filter & Search Bar */}
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          {/* Search Input */}
-          <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              id="input-history-search"
-              type="text"
-              placeholder="Search title, content, speaker..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-500 shadow-xs"
-            />
-          </div>
-
-          {/* Filter Tabs */}
-          <div className="flex items-center gap-1 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
-            {[
-              { key: 'all', label: 'All Logs' },
-              { key: 'audio', label: 'Audio' },
-              { key: 'devotional', label: 'Devotional' },
-              { key: 'event', label: 'Events' },
-              { key: 'announcement', label: 'Notices' },
-              { key: 'test', label: 'Test Pushes' },
-            ].map((tab) => (
-              <button
-                key={tab.key}
-                id={`filter-tab-${tab.key}`}
-                onClick={() => setSelectedTypeFilter(tab.key)}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedTypeFilter === tab.key
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'bg-slate-100 dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => setActiveTab('announcements')}
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+            activeTab === 'announcements'
+              ? 'bg-white dark:bg-[#18181b] text-slate-900 dark:text-zinc-100 shadow-sm border border-slate-200 dark:border-[#27272a]'
+              : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+          }`}
+        >
+          <Layers className="w-3.5 h-3.5 text-purple-500" />
+          <span>App Announcements Feed</span>
+        </button>
       </div>
 
-      {/* History Items List */}
-      {filteredHistory.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80">
-          <Calendar className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-2" />
-          <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">No broadcasts found</h3>
-          <p className="text-xs text-slate-500 mt-1">
-            {searchQuery
-              ? 'Try modifying your search filter.'
-              : 'Broadcast history logs will appear here when notifications are dispatched.'}
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {filteredHistory.map((item) => {
-            const formattedDate = new Date(item.timestamp).toLocaleString(undefined, {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-            });
+      {activeTab === 'dispatches' ? (
+        <>
+          {/* Header & Controls */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+            <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-[#27272a]">
+              <h2 className="font-outfit font-bold text-base sm:text-lg text-slate-900 dark:text-zinc-100">
+                Broadcast History
+              </h2>
 
-            return (
-              <div
-                key={item.id}
-                id={`history-item-${item.id}`}
-                className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#1C2541]/70 border border-slate-200 dark:border-slate-700/70 hover:border-blue-300 dark:hover:border-slate-600 transition-all shadow-xs dark:shadow-md backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                {/* Left: Icon & Content */}
-                <div className="flex items-start gap-3.5 flex-1 min-w-0">
-                  {/* Category Thumbnail / Icon */}
-                  <div className="shrink-0 relative">
-                    <div className="w-11 h-11 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                      {item.imageUrl ? (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/icon.svg';
-                          }}
-                        />
-                      ) : (
-                        <Bell className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                      )}
-                    </div>
-                    {item.isTest && (
-                      <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded bg-amber-500 text-slate-950 text-[9px] font-extrabold uppercase">
-                        Test
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                        {formattedDate}
-                      </span>
-                      <span className="text-slate-300 dark:text-slate-600">•</span>
-                      <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                          item.type === 'audio'
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/20'
-                            : item.type === 'devotional'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/20'
-                            : item.type === 'event'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/20'
-                            : 'bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-500/15 dark:text-purple-300 dark:border-purple-500/20'
-                        }`}
-                      >
-                        {item.type}
-                      </span>
-                      <span className="text-slate-300 dark:text-slate-600">•</span>
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                        <CheckCircle2 className="w-3 h-3" />
-                        {item.isTest ? '1 Test Device' : `${item.recipientCount.toLocaleString()} Devices`}
-                      </span>
-                    </div>
-
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-snug truncate">
-                      {item.title}
-                    </h4>
-
-                    {item.subtitle && (
-                      <p className="text-xs text-blue-600 dark:text-blue-300 font-medium truncate mt-0.5">
-                        {item.subtitle}
-                      </p>
-                    )}
-
-                    <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-1 leading-relaxed">
-                      {item.body}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right: Actions */}
-                <div className="flex items-center gap-2 shrink-0 self-end sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-slate-700/60 w-full sm:w-auto justify-end">
+              <div className="flex items-center gap-2">
+                <button
+                  id="btn-export-history"
+                  onClick={handleExportJson}
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-200 dark:border-[#27272a] text-xs font-semibold text-slate-700 dark:text-zinc-300 transition-colors flex items-center gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export</span>
+                </button>
+                {broadcastHistory.length > 0 && (
                   <button
-                    type="button"
-                    id={`btn-payload-${item.id}`}
-                    onClick={() => setInspectPayloadItem(item)}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 text-xs transition-colors flex items-center gap-1.5"
-                    title="View Raw JSON Payload"
+                    id="btn-clear-history"
+                    onClick={clearHistory}
+                    className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/40 text-xs font-semibold text-rose-700 dark:text-rose-300 transition-colors flex items-center gap-1.5"
                   >
-                    <Code className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    <span className="hidden md:inline">Payload</span>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Clear</span>
                   </button>
-
-                  <button
-                    type="button"
-                    id={`btn-resend-${item.id}`}
-                    onClick={() => onDuplicateToComposer(item)}
-                    className="px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-blue-600/20 dark:hover:bg-blue-600/30 border border-blue-200 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 text-xs font-semibold transition-colors flex items-center gap-1.5 active:scale-95"
-                    title="Load back into Composer"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Resend / Edit</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    id={`btn-delete-${item.id}`}
-                    onClick={() => deleteHistoryItem(item.id)}
-                    className="p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
-                    title="Delete log entry"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+                )}
               </div>
-            );
-          })}
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="mt-3 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+              <div className="relative w-full sm:w-72">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  id="input-history-search"
+                  type="text"
+                  placeholder="Search history..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] rounded-xl text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="flex items-center gap-1 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
+                {[
+                  { key: 'all', label: 'All' },
+                  { key: 'audio', label: 'Audio' },
+                  { key: 'devotional', label: 'Devotional' },
+                  { key: 'event', label: 'Events' },
+                  { key: 'announcement', label: 'Notices' },
+                  { key: 'test', label: 'Test' },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    id={`filter-tab-${tab.key}`}
+                    onClick={() => setSelectedTypeFilter(tab.key)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                      selectedTypeFilter === tab.key
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-[#27272a]'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* History Items List */}
+          {filteredHistory.length === 0 ? (
+            <div className="p-8 text-center rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
+              <Calendar className="w-8 h-8 text-slate-400 dark:text-zinc-600 mx-auto mb-2" />
+              <h3 className="text-xs font-semibold text-slate-700 dark:text-zinc-300">No broadcasts found</h3>
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {filteredHistory.map((item) => {
+                const formattedDate = new Date(item.timestamp).toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                });
+
+                return (
+                  <div
+                    key={item.id}
+                    id={`history-item-${item.id}`}
+                    className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  >
+                    {/* Left: Icon & Content */}
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <div className="shrink-0 relative">
+                        <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] flex items-center justify-center">
+                          {item.imageUrl ? (
+                            <img
+                              src={item.imageUrl}
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/icon.svg';
+                              }}
+                            />
+                          ) : (
+                            <Bell className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-0.5 text-[11px]">
+                          <span className="font-semibold text-slate-500 dark:text-zinc-400">
+                            {formattedDate}
+                          </span>
+                          <span>•</span>
+                          <span className="font-bold uppercase text-[10px] text-blue-600 dark:text-blue-400">
+                            {item.type}
+                          </span>
+                          <span>•</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                            {item.isTest ? '1 Test' : `${item.recipientCount.toLocaleString()} Recip.`}
+                          </span>
+                        </div>
+
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-zinc-100 truncate">
+                          {item.title}
+                        </h4>
+                        {item.body && (
+                          <p className="text-[11px] text-slate-600 dark:text-zinc-400 truncate">
+                            {item.body}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Right: Actions */}
+                    <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                      <button
+                        type="button"
+                        id={`btn-payload-${item.id}`}
+                        onClick={() => setInspectPayloadItem(item)}
+                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] text-[11px]"
+                        title="Payload"
+                      >
+                        <Code className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
+                        type="button"
+                        id={`btn-resend-${item.id}`}
+                        onClick={() => onDuplicateToComposer(item)}
+                        className="px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-[11px] font-semibold flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        <span>Resend</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        id={`btn-delete-${item.id}`}
+                        onClick={() => deleteHistoryItem(item.id)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
+      ) : (
+        /* ================= IN-APP ANNOUNCEMENTS FEED MANAGER ================= */
+        <div className="space-y-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 className="font-outfit font-bold text-base sm:text-lg text-slate-900 dark:text-zinc-100">
+                Live App Announcements Feed
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
+                Active cards visible to congregation members inside the mobile app's announcement panel.
+              </p>
+            </div>
+
+            <button
+              onClick={fetchLiveAnnouncements}
+              disabled={isLoadingAnnouncements}
+              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-200 dark:border-[#27272a] text-xs font-semibold text-slate-700 dark:text-zinc-200 flex items-center justify-center gap-1.5 self-start sm:self-auto disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoadingAnnouncements ? 'animate-spin' : ''}`} />
+              <span>Refresh Feed</span>
+            </button>
+          </div>
+
+          {isLoadingAnnouncements ? (
+            <div className="p-8 text-center rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
+              <RefreshCw className="w-6 h-6 animate-spin text-blue-500 mx-auto mb-2" />
+              <p className="text-xs text-slate-500 dark:text-zinc-400">Loading announcements feed...</p>
+            </div>
+          ) : filteredAnnouncements.length === 0 ? (
+            <div className="p-8 text-center rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
+              <Layers className="w-8 h-8 text-slate-400 dark:text-zinc-600 mx-auto mb-2" />
+              <h3 className="text-xs font-semibold text-slate-700 dark:text-zinc-300">
+                No active in-app announcements
+              </h3>
+              <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-1">
+                When you publish with "Pin to App Announcements", it will appear here and on the mobile app home screen.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {filteredAnnouncements.map((item) => {
+                const formattedDate = new Date(item.createdAt).toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                });
+
+                return (
+                  <div
+                    key={item.id}
+                    className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  >
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] flex items-center justify-center shrink-0">
+                        {item.imageUrl ? (
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/icon.svg';
+                            }}
+                          />
+                        ) : (
+                          <Bell className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-0.5 text-[11px]">
+                          <span className="font-semibold text-slate-500 dark:text-zinc-400">
+                            {formattedDate}
+                          </span>
+                          <span>•</span>
+                          <span className="font-bold uppercase text-[10px] text-purple-600 dark:text-purple-400">
+                            {item.type}
+                          </span>
+                          <span>•</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium text-[10px]">
+                            Live on App
+                          </span>
+                        </div>
+
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-zinc-100">
+                          {item.title}
+                        </h4>
+                        <p className="text-[11px] text-slate-600 dark:text-zinc-400 line-clamp-2 mt-0.5">
+                          {item.body}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                      <button
+                        onClick={() => handleDeleteAnnouncement(item.id)}
+                        className="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-1 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Unpin / Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 
       {/* Raw Payload Inspector Modal */}
       {inspectPayloadItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-white dark:bg-[#1C2541] border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl overflow-hidden text-slate-800 dark:text-slate-100 flex flex-col max-h-[85vh]">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Code className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                <div>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Broadcast Delivery Receipt</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">ID: {inspectPayloadItem.id}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setInspectPayloadItem(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white"
-              >
-                <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] rounded-2xl shadow-xl p-4 text-xs space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-[#27272a]">
+              <h3 className="font-bold text-slate-900 dark:text-zinc-100">Delivery Receipt</h3>
+              <button onClick={() => setInspectPayloadItem(null)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-4 h-4" />
               </button>
             </div>
-
-            <div className="p-5 space-y-4 overflow-y-auto">
-              <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span>
-                  Timestamp: <strong className="text-slate-900 dark:text-white">{inspectPayloadItem.timestamp}</strong>
-                </span>
-                <span>
-                  Recipients:{' '}
-                  <strong className="text-emerald-600 dark:text-emerald-400">
-                    {inspectPayloadItem.recipientCount.toLocaleString()}
-                  </strong>
-                </span>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1.5 uppercase">
-                  Raw JSON Payload (Sent to /api/admin/broadcast)
-                </label>
-                <pre className="p-3.5 bg-slate-900 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-emerald-400 dark:text-emerald-300 overflow-x-auto select-all max-h-60">
-                  {JSON.stringify(inspectPayloadItem.payload, null, 2)}
-                </pre>
-              </div>
-
-              {inspectPayloadItem.resultDetails && (
-                <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-500/30 text-xs text-blue-900 dark:text-blue-300">
-                  <strong>Expo Delivery Breakdown:</strong>
-                  <p className="mt-0.5 text-slate-700 dark:text-slate-300">
-                    {inspectPayloadItem.resultDetails.ticketSummary || 'All tickets confirmed by Expo Push service.'}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="p-4 border-t border-slate-200 dark:border-slate-700/80 flex justify-end gap-2">
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(JSON.stringify(inspectPayloadItem.payload, null, 2));
-                  addToast({
-                    type: 'success',
-                    title: 'Copied to Clipboard',
-                    description: 'JSON payload copied.',
-                  });
-                }}
-                className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5"
-              >
-                <Copy className="w-3.5 h-3.5" />
-                <span>Copy JSON</span>
-              </button>
+            <pre className="p-3 bg-slate-900 dark:bg-zinc-950 rounded-xl text-[10px] font-mono text-emerald-400 overflow-x-auto max-h-56">
+              {JSON.stringify(inspectPayloadItem.payload, null, 2)}
+            </pre>
+            <div className="flex justify-end gap-2 pt-1">
               <button
                 onClick={() => setInspectPayloadItem(null)}
-                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-semibold text-white"
+                className="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-semibold text-xs"
               >
                 Close
               </button>
