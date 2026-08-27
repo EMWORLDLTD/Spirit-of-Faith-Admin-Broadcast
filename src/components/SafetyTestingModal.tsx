@@ -180,20 +180,46 @@ export const SafetyTestingModal: React.FC<SafetyTestingModalProps> = ({
         {/* Modal Body */}
         <div className="p-4 space-y-3.5 overflow-y-auto text-xs">
           {/* Summary Box */}
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] space-y-1">
-            <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 pb-1 border-b border-slate-200 dark:border-[#27272a]">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] space-y-2">
+            <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 pb-1.5 border-b border-slate-200 dark:border-[#27272a]">
               <span className="font-semibold text-slate-700 dark:text-zinc-300 uppercase tracking-wider text-[10px]">
-                Summary
+                Payload Summary
               </span>
               <span className="capitalize px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold text-[10px]">
                 {draft.type}
               </span>
             </div>
             <div>
-              <strong className="text-slate-900 dark:text-zinc-100">{draft.title}</strong>
+              <strong className="text-slate-900 dark:text-zinc-100 block text-[13px]">{draft.title}</strong>
+              {draft.subtitle && (
+                <span className="text-[11px] font-medium text-slate-500 dark:text-zinc-400 block mt-0.5">
+                  {draft.subtitle}
+                </span>
+              )}
             </div>
             {draft.body && (
-              <p className="text-slate-600 dark:text-zinc-400 truncate">{draft.body}</p>
+              <p className="text-slate-600 dark:text-zinc-300 leading-relaxed text-[11px] bg-white dark:bg-zinc-950 p-2 rounded-lg border border-slate-100 dark:border-[#27272a]">
+                {draft.body}
+              </p>
+            )}
+
+            {/* Rich Notification Image Banner Preview */}
+            {draft.imageUrl && (
+              <div className="space-y-1 pt-1">
+                <span className="text-[10px] font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider block">
+                  Attached Banner Image
+                </span>
+                <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-[#27272a] bg-slate-100 dark:bg-zinc-950 max-h-36 relative">
+                  <img
+                    src={draft.imageUrl}
+                    alt="Notification Banner Preview"
+                    className="w-full h-36 object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+              </div>
             )}
           </div>
 
