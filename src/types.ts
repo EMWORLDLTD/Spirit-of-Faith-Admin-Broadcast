@@ -76,6 +76,7 @@ export interface BroadcastPayload {
   testToken?: string | null;
   sendPush?: boolean;
   saveToFeed?: boolean;
+  expiresAt?: string;
 }
 
 export interface BroadcastResult {

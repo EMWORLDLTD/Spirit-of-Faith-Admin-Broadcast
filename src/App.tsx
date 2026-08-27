@@ -8,15 +8,16 @@ import { LockScreenSimulator } from './components/LockScreenSimulator';
 import { SafetyTestingModal } from './components/SafetyTestingModal';
 import { BroadcastHistory } from './components/BroadcastHistory';
 import { DeviceManager } from './components/DeviceManager';
+import { FeedManager } from './components/FeedManager';
 import { SettingsModal } from './components/SettingsModal';
 import { ToastContainer } from './components/ToastContainer';
 import { PwaInstallBanner } from './components/PwaInstallBanner';
-import { BroadcastHistoryItem } from './types';
+import { BroadcastHistoryItem, AnnouncementItem } from './types';
 import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
 const AdminPortalMain: React.FC = () => {
   const { auth, activeDraft, updateActiveDraft, pollerStatus, setSavedTestToken } = useAdmin();
-  const [activeTab, setActiveTab] = useState<'composer' | 'history' | 'poller' | 'devices'>('composer');
+  const [activeTab, setActiveTab] = useState<'composer' | 'feed' | 'history' | 'poller' | 'devices'>('composer');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [safetyModal, setSafetyModal] = useState<{
     isOpen: boolean;
@@ -41,6 +42,19 @@ const AdminPortalMain: React.FC = () => {
       type: item.type,
       imageUrl: item.imageUrl,
       data: { ...item.payload.data },
+    });
+    setActiveTab('composer');
+  };
+
+  const handleDuplicateAnnouncementToComposer = (item: AnnouncementItem) => {
+    updateActiveDraft({
+      title: item.title,
+      subtitle: item.subtitle,
+      body: item.body,
+      type: item.type,
+      imageUrl: item.imageUrl,
+      expiresAt: item.expiresAt,
+      data: { linkUrl: item.linkUrl },
     });
     setActiveTab('composer');
   };
@@ -112,7 +126,12 @@ const AdminPortalMain: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 2: Registered Devices Manager */}
+        {/* Tab 2: In-App Announcements & Notice Board Manager */}
+        {activeTab === 'feed' && (
+          <FeedManager onDuplicateToComposer={handleDuplicateAnnouncementToComposer} />
+        )}
+
+        {/* Tab 3: Registered Devices Manager */}
         {activeTab === 'devices' && (
           <DeviceManager onSendTestToDevice={handleSendTestToSpecificDevice} />
         )}

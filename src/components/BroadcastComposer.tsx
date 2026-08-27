@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ChevronUp,
   CheckCircle2,
+  Clock,
 } from 'lucide-react';
 
 interface BroadcastComposerProps {
@@ -346,6 +347,119 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
             </label>
           </div>
         </div>
+
+        {/* Auto-Expiration / Removal Setting */}
+        {activeDraft.saveToFeed !== false && (
+          <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-slate-700 dark:text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-blue-500" />
+                <span>Auto-Removal / Expiration</span>
+              </label>
+              {activeDraft.expiresAt && (
+                <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                  {new Date(activeDraft.expiresAt).toLocaleDateString([], { month: 'short', day: 'numeric' })} at{' '}
+                  {new Date(activeDraft.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => updateActiveDraft({ expiresAt: undefined })}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  !activeDraft.expiresAt
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                Never (Evergreen)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const d = new Date(Date.now() + 24 * 60 * 60 * 1000);
+                  updateActiveDraft({ expiresAt: d.toISOString() });
+                }}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  activeDraft.expiresAt &&
+                  Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 24 * 60 * 60 * 1000)) < 60000
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                24 Hours
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const d = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+                  updateActiveDraft({ expiresAt: d.toISOString() });
+                }}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  activeDraft.expiresAt &&
+                  Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 3 * 24 * 60 * 60 * 1000)) < 60000
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                3 Days
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const d = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+                  updateActiveDraft({ expiresAt: d.toISOString() });
+                }}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  activeDraft.expiresAt &&
+                  Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 7 * 24 * 60 * 60 * 1000)) < 60000
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                7 Days
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const d = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                  updateActiveDraft({ expiresAt: d.toISOString() });
+                }}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  activeDraft.expiresAt &&
+                  Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 30 * 24 * 60 * 60 * 1000)) < 60000
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                30 Days
+              </button>
+
+              <input
+                type="datetime-local"
+                value={activeDraft.expiresAt ? activeDraft.expiresAt.substring(0, 16) : ''}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    const iso = new Date(e.target.value).toISOString();
+                    updateActiveDraft({ expiresAt: iso });
+                  } else {
+                    updateActiveDraft({ expiresAt: undefined });
+                  }
+                }}
+                className="px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+            <p className="text-[10px] text-slate-500 dark:text-zinc-400">
+              When expired, this notice is automatically removed and pruned from all user mobile devices.
+            </p>
+          </div>
+        )}
 
         {/* 7. Action Footer */}
         <div className="pt-3 border-t border-slate-200 dark:border-[#27272a] flex flex-col sm:flex-row items-center justify-between gap-2.5">

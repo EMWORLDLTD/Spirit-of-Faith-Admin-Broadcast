@@ -9,12 +9,13 @@ import {
   Smartphone,
   Radio,
   ExternalLink,
+  Layers,
 } from 'lucide-react';
 
 interface NavbarProps {
   onOpenSettings: () => void;
-  activeTab: 'composer' | 'history' | 'poller' | 'devices';
-  setActiveTab: (tab: 'composer' | 'history' | 'poller' | 'devices') => void;
+  activeTab: 'composer' | 'feed' | 'devices' | 'poller' | 'history';
+  setActiveTab: (tab: 'composer' | 'feed' | 'devices' | 'poller' | 'history') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -97,6 +98,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Radio className="w-3.5 h-3.5" />
               Broadcast Composer
+            </button>
+            <button
+              id="tab-btn-feed"
+              onClick={() => setActiveTab('feed')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                activeTab === 'feed'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              In-App Notices
             </button>
             <button
               id="tab-btn-devices"
@@ -187,12 +200,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Tab Navigation Bar (4 Compact Bento Tabs) */}
-      <div className="flex md:hidden border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 px-1.5 py-1 justify-around gap-1">
+      {/* Mobile Tab Navigation Bar */}
+      <div className="flex md:hidden border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 px-1 py-1 justify-around gap-1 overflow-x-auto">
         <button
           id="mobile-tab-composer"
           onClick={() => setActiveTab('composer')}
-          className={`flex-1 py-1.5 text-center text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
             activeTab === 'composer'
               ? 'bg-blue-600 text-white'
               : 'text-slate-600 dark:text-zinc-400'
@@ -202,9 +215,21 @@ export const Navbar: React.FC<NavbarProps> = ({
           Broadcast
         </button>
         <button
+          id="mobile-tab-feed"
+          onClick={() => setActiveTab('feed')}
+          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+            activeTab === 'feed'
+              ? 'bg-blue-600 text-white'
+              : 'text-slate-600 dark:text-zinc-400'
+          }`}
+        >
+          <Layers className="w-3 h-3" />
+          In-App Feed
+        </button>
+        <button
           id="mobile-tab-devices"
           onClick={() => setActiveTab('devices')}
-          className={`flex-1 py-1.5 text-center text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
             activeTab === 'devices'
               ? 'bg-blue-600 text-white'
               : 'text-slate-600 dark:text-zinc-400'
@@ -216,7 +241,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <button
           id="mobile-tab-poller"
           onClick={() => setActiveTab('poller')}
-          className={`flex-1 py-1.5 text-center text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
             activeTab === 'poller'
               ? 'bg-blue-600 text-white'
               : 'text-slate-600 dark:text-zinc-400'
@@ -228,7 +253,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <button
           id="mobile-tab-history"
           onClick={() => setActiveTab('history')}
-          className={`flex-1 py-1.5 text-center text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
             activeTab === 'history'
               ? 'bg-blue-600 text-white'
               : 'text-slate-600 dark:text-zinc-400'
