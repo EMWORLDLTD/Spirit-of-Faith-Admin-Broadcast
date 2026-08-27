@@ -61,10 +61,10 @@ export const AuthScreen: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 bg-slate-100 dark:bg-[#09090b] relative overflow-hidden transition-colors duration-200">
-      <div className="w-full max-w-md bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#27272a] shadow-xl p-6 sm:p-8 text-slate-800 dark:text-zinc-100 relative z-10">
+      <div className="w-full max-w-md bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#27272a] p-6 sm:p-8 text-slate-800 dark:text-zinc-100 relative z-10">
         {/* Logo & Identity */}
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-900 p-2 shadow-sm mb-2.5 flex items-center justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] p-2 mb-2.5 flex items-center justify-center">
             <img
               src="/icon.png"
               alt="Christ Pavilion"
@@ -174,7 +174,7 @@ export const AuthScreen: React.FC = () => {
               type="submit"
               id="btn-submit-unlock"
               disabled={isSubmitting || pin.length < 4}
-              className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Unlock Portal</span>

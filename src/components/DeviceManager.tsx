@@ -170,7 +170,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
     <div className="space-y-4 sm:space-y-5">
       {/* 4 Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Total Devices</span>
             <Smartphone className="w-4 h-4 text-blue-500" />
@@ -180,7 +180,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border-l-4 border-emerald-500">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border-l-4 border-l-emerald-500 border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Active</span>
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
@@ -190,7 +190,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border-l-4 border-rose-500">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border-l-4 border-l-rose-500 border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Revoked / Dead</span>
             <AlertTriangle className="w-4 h-4 text-rose-500" />
@@ -200,7 +200,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border-l-4 border-amber-500">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border-l-4 border-l-amber-500 border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Muted</span>
             <BellOff className="w-4 h-4 text-amber-500" />
@@ -212,14 +212,14 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
       </div>
 
       {/* Tabs & Search & Prune Bar */}
-      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm flex flex-col lg:flex-row items-center justify-between gap-3">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] flex flex-col lg:flex-row items-center justify-between gap-3">
         {/* Filter Tabs */}
         <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-zinc-900 rounded-xl w-full lg:w-auto overflow-x-auto">
           <button
             onClick={() => setActiveTab('all')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 ${
               activeTab === 'all'
-                ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm'
+                ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100'
                 : 'text-slate-500 dark:text-zinc-400 hover:text-slate-900'
             }`}
           >
@@ -229,7 +229,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
             onClick={() => setActiveTab('active')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5 ${
               activeTab === 'active'
-                ? 'bg-emerald-500 text-white shadow-sm'
+                ? 'bg-emerald-500 text-white'
                 : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700'
             }`}
           >
@@ -240,7 +240,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
             onClick={() => setActiveTab('revoked')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5 ${
               activeTab === 'revoked'
-                ? 'bg-rose-500 text-white shadow-sm'
+                ? 'bg-rose-500 text-white'
                 : 'text-rose-600 dark:text-rose-400 hover:text-rose-700'
             }`}
           >
@@ -251,7 +251,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
             onClick={() => setActiveTab('unsubscribed')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5 ${
               activeTab === 'unsubscribed'
-                ? 'bg-amber-500 text-white shadow-sm'
+                ? 'bg-amber-500 text-white'
                 : 'text-amber-600 dark:text-amber-400 hover:text-amber-700'
             }`}
           >
@@ -297,7 +297,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
       </div>
 
       {/* Devices Table */}
-      <div className="rounded-2xl bg-white dark:bg-[#18181b] shadow-sm overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] overflow-hidden">
         {filteredDevices.length === 0 ? (
           <div className="p-8 text-center text-xs">
             <Smartphone className="w-8 h-8 text-slate-300 dark:text-zinc-600 mx-auto mb-2" />

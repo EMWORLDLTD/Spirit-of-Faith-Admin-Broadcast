@@ -110,41 +110,41 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
 
   return (
     <div className="space-y-4 sm:space-y-5">
-      {/* Stats Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+      {/* Stats Summary Cards - 3 Column Grid */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-3.5">
+        <div className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Live In-App Notices</span>
-            <Layers className="w-4 h-4 text-purple-500" />
+            <span className="text-[9px] sm:text-xs font-semibold uppercase tracking-wider truncate">In-App Notices</span>
+            <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-500 shrink-0" />
           </div>
-          <div className="text-lg sm:text-xl font-bold text-slate-900 dark:text-zinc-100">
+          <div className="text-base sm:text-xl font-bold text-slate-900 dark:text-zinc-100">
             {announcements.length}
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border-l-4 border-emerald-500">
+        <div className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border-l-4 border-l-emerald-500 border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Evergreen (No Expiry)</span>
-            <Sparkles className="w-4 h-4 text-emerald-500" />
+            <span className="text-[9px] sm:text-xs font-semibold uppercase tracking-wider truncate">Evergreen</span>
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 shrink-0" />
           </div>
-          <div className="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">
+          <div className="text-base sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">
             {evergreenCount}
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border-l-4 border-blue-500">
+        <div className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border-l-4 border-l-blue-500 border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Scheduled Auto-Expiry</span>
-            <Clock className="w-4 h-4 text-blue-500" />
+            <span className="text-[9px] sm:text-xs font-semibold uppercase tracking-wider truncate">Scheduled</span>
+            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 shrink-0" />
           </div>
-          <div className="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-400">
+          <div className="text-base sm:text-xl font-bold text-blue-600 dark:text-blue-400">
             {expiringCount}
           </div>
         </div>
       </div>
 
       {/* Toolbar & Search */}
-      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-2.5">
+      <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] flex flex-col sm:flex-row items-center justify-between gap-2.5">
         <div className="relative w-full sm:w-80">
           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -166,10 +166,10 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
         </button>
       </div>
 
-      {/* Announcements List */}
-      <div className="space-y-3">
+      {/* Announcements List - 2 Column Responsive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         {filteredAnnouncements.length === 0 ? (
-          <div className="p-12 text-center text-xs bg-white dark:bg-[#18181b] rounded-2xl shadow-sm">
+          <div className="col-span-full p-10 sm:p-12 text-center text-xs bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] rounded-2xl">
             <Bell className="w-10 h-10 text-slate-300 dark:text-zinc-600 mx-auto mb-2" />
             <h4 className="font-bold text-slate-700 dark:text-zinc-300 text-sm">
               {searchQuery ? 'No matching announcements' : 'No Active In-App Announcements'}
@@ -188,13 +188,13 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
             return (
               <div
                 key={item.id}
-                className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm border border-slate-100 dark:border-[#27272a] flex flex-col md:flex-row gap-4 items-start justify-between"
+                className="p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] flex flex-col justify-between gap-3.5"
               >
-                {/* Left: Thumbnail & Content */}
-                <div className="flex flex-col sm:flex-row gap-3.5 items-start flex-1 w-full">
+                {/* Top Section: Banner + Details */}
+                <div className="space-y-3">
                   {/* Banner Image Thumbnail */}
                   {item.imageUrl && (
-                    <div className="w-full sm:w-32 h-24 sm:h-20 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 shrink-0 border border-slate-200 dark:border-[#27272a]">
+                    <div className="w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 shrink-0 border border-slate-200 dark:border-[#27272a]">
                       <img
                         src={item.imageUrl}
                         alt={item.title}
@@ -206,36 +206,37 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                     </div>
                   )}
 
-                  {/* Text Details */}
-                  <div className="space-y-1.5 flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300">
-                        {getTypeIcon(item.type)}
-                        {item.type}
+                  {/* Header Badges */}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a]">
+                      {getTypeIcon(item.type)}
+                      {item.type}
+                    </span>
+
+                    {/* Expiry Pill */}
+                    {hasExpiry && expiryDate ? (
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          isExpiringSoon
+                            ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                            : 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                        }`}
+                      >
+                        <Clock className="w-3 h-3" />
+                        Expires: {expiryDate.toLocaleDateString([], { month: 'short', day: 'numeric' })} at{' '}
+                        {expiryDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                        <Sparkles className="w-3 h-3" />
+                        Evergreen
+                      </span>
+                    )}
+                  </div>
 
-                      {/* Expiry Pill */}
-                      {hasExpiry && expiryDate ? (
-                        <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            isExpiringSoon
-                              ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
-                              : 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
-                          }`}
-                        >
-                          <Clock className="w-3 h-3" />
-                          Auto-Removes: {expiryDate.toLocaleDateString([], { month: 'short', day: 'numeric' })} at{' '}
-                          {expiryDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                          <Sparkles className="w-3 h-3" />
-                          Evergreen
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-zinc-100">
+                  {/* Text Details */}
+                  <div className="space-y-1">
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-zinc-100 leading-snug">
                       {item.title}
                     </h3>
 
@@ -257,36 +258,39 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline pt-0.5"
                       >
                         <ExternalLink className="w-3 h-3" />
-                        <span>{item.linkUrl}</span>
+                        <span className="truncate max-w-[240px]">{item.linkUrl}</span>
                       </a>
                     )}
-
-                    <div className="text-[10px] text-slate-400 dark:text-zinc-500 pt-1">
-                      Published: {new Date(item.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
-                    </div>
                   </div>
                 </div>
 
-                {/* Right: Actions */}
-                <div className="flex sm:flex-col items-center gap-2 self-end sm:self-center shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-[#27272a]">
-                  <button
-                    onClick={() => onDuplicateToComposer(item)}
-                    title="Load into Composer Draft"
-                    className="flex-1 sm:flex-none px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-colors"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Duplicate</span>
-                  </button>
+                {/* Footer Section: Published Time & Actions */}
+                <div className="pt-2.5 border-t border-slate-100 dark:border-[#27272a] flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                    {new Date(item.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })} at{' '}
+                    {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
 
-                  <button
-                    onClick={() => handleDeleteAnnouncement(item.id, item.title)}
-                    disabled={deletingId === item.id}
-                    title="Remove from all user phones"
-                    className="flex-1 sm:flex-none px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>{deletingId === item.id ? 'Removing...' : 'Unpublish'}</span>
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => onDuplicateToComposer(item)}
+                      title="Load into Composer Draft"
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold inline-flex items-center gap-1 transition-colors"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Duplicate</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteAnnouncement(item.id, item.title)}
+                      disabled={deletingId === item.id}
+                      title="Remove from all user phones"
+                      className="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-semibold inline-flex items-center gap-1 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>{deletingId === item.id ? '...' : 'Unpublish'}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             );

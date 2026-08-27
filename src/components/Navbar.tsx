@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Brand & Emblem */}
           <div className="flex items-center gap-2.5">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] shadow-xs overflow-hidden p-1">
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] overflow-hidden p-1">
               <img
                 src="/icon.png"
                 alt="Christ Pavilion"
@@ -92,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('composer')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'composer'
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
@@ -104,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('feed')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'feed'
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
@@ -116,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('devices')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'devices'
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
@@ -128,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('poller')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'poller'
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
@@ -140,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('history')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'history'
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >

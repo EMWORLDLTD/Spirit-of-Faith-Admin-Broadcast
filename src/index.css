@@ -9,6 +9,6 @@
 }
 
 .bento-card {
-  @apply rounded-2xl bg-white dark:bg-[#18181b] border-0 shadow-sm backdrop-blur-md transition-all;
+  @apply rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] backdrop-blur-md transition-all;
 }
 

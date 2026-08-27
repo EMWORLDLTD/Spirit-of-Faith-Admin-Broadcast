@@ -18,14 +18,14 @@ export const ToastContainer: React.FC = () => {
           <div
             key={toast.id}
             id={`toast-${toast.id}`}
-            className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-xl backdrop-blur-md transition-all transform translate-y-0 opacity-100 animate-in fade-in slide-in-from-top-2 duration-200 ${
+            className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md transition-all transform translate-y-0 opacity-100 animate-in fade-in slide-in-from-top-2 duration-200 ${
               isSuccess
-                ? 'bg-white/95 dark:bg-slate-900/95 border-emerald-500/40 text-emerald-900 dark:text-emerald-100 shadow-emerald-500/10 dark:shadow-emerald-950/30'
+                ? 'bg-white/95 dark:bg-slate-900/95 border-emerald-500/40 text-emerald-900 dark:text-emerald-100'
                 : isError
-                ? 'bg-white/95 dark:bg-slate-900/95 border-rose-500/40 text-rose-900 dark:text-rose-100 shadow-rose-500/10 dark:shadow-rose-950/30'
+                ? 'bg-white/95 dark:bg-slate-900/95 border-rose-500/40 text-rose-900 dark:text-rose-100'
                 : isWarning
-                ? 'bg-white/95 dark:bg-slate-900/95 border-amber-500/40 text-amber-900 dark:text-amber-100 shadow-amber-500/10 dark:shadow-amber-950/30'
-                : 'bg-white/95 dark:bg-slate-900/95 border-blue-500/40 text-blue-900 dark:text-blue-100 shadow-blue-500/10 dark:shadow-blue-950/30'
+                ? 'bg-white/95 dark:bg-slate-900/95 border-amber-500/40 text-amber-900 dark:text-amber-100'
+                : 'bg-white/95 dark:bg-slate-900/95 border-blue-500/40 text-blue-900 dark:text-blue-100'
             }`}
           >
             <div className="shrink-0 mt-0.5">

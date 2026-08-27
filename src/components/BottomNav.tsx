@@ -11,7 +11,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
     <nav
       id="mobile-bottom-nav"
       aria-label="Mobile Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl px-2 py-1.5 flex justify-around items-center shadow-2xl pb-[max(0.75rem,env(safe-area-inset-bottom))]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl px-2 py-1.5 flex justify-around items-center pb-[max(0.75rem,env(safe-area-inset-bottom))]"
     >
       <button
         id="mobile-tab-composer"

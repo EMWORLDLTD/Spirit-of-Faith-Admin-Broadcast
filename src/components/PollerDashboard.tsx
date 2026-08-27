@@ -78,7 +78,7 @@ export const PollerDashboard: React.FC<{
       )}
 
       {/* Header Banner - Compact Bento */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700/40 shrink-0">
             <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -122,7 +122,7 @@ export const PollerDashboard: React.FC<{
           id="btn-poller-run-check"
           onClick={triggerPollNow}
           disabled={isPollingLoading}
-          className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+          className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isPollingLoading ? 'animate-spin' : ''}`} />
           <span>{isPollingLoading ? 'Checking...' : 'Run Check Now'}</span>
@@ -132,7 +132,7 @@ export const PollerDashboard: React.FC<{
       {/* 2:2 Grid Column Card for Mobile, 4 columns for Desktop */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1: Poller Connection */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Poller Connection</span>
             <Radio
@@ -155,9 +155,9 @@ export const PollerDashboard: React.FC<{
         </div>
 
         {/* Metric 2: Last Automatic Check */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
-            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Last Automatic Check</span>
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Last Check</span>
             <Clock className="w-4 h-4 text-blue-500 dark:text-blue-400" />
           </div>
           <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-zinc-100">
@@ -170,23 +170,23 @@ export const PollerDashboard: React.FC<{
         </div>
 
         {/* Metric 3: Active Congregation Devices */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
-            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider truncate">Active Congregation Devices</span>
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Active Devices</span>
             <Smartphone className="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" />
           </div>
           <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-zinc-100">
-            {pollerStatus.totalTokens.toLocaleString()}
+            {(pollerStatus.activeTokens ?? pollerStatus.totalTokens).toLocaleString()}
           </div>
           <div className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-zinc-400 mt-1">
-            <span className="text-blue-600 dark:text-blue-400 font-medium">iOS: {pollerStatus.iosTokens ? pollerStatus.iosTokens.toLocaleString() : Math.round(pollerStatus.totalTokens * 0.58).toLocaleString()}</span>
+            <span className="text-blue-600 dark:text-blue-400 font-medium">iOS: {(pollerStatus.iosTokens ?? 0).toLocaleString()}</span>
             <span>•</span>
-            <span className="text-emerald-600 dark:text-emerald-400 font-medium">Android: {pollerStatus.androidTokens ? pollerStatus.androidTokens.toLocaleString() : Math.round(pollerStatus.totalTokens * 0.42).toLocaleString()}</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-medium">Android: {(pollerStatus.androidTokens ?? (pollerStatus.activeTokens ?? pollerStatus.totalTokens)).toLocaleString()}</span>
           </div>
         </div>
 
         {/* Metric 4: Sync Operations */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Sync Operations</span>
             <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400" />
@@ -202,7 +202,7 @@ export const PollerDashboard: React.FC<{
 
       {/* Newest Detected Message & Audio Feed Card */}
       {pollerStatus.lastDetectedTeaching ? (
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3 pb-3 border-b border-slate-200 dark:border-[#27272a]">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">

@@ -135,7 +135,7 @@ const AdminPortalMain: React.FC = () => {
         {activeTab === 'poller' && (
           <div className="space-y-5">
             <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm text-xs space-y-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] text-xs space-y-3">
               <h3 className="font-outfit font-bold text-sm sm:text-base text-slate-900 dark:text-zinc-100">
                 Automation Architecture
               </h3>

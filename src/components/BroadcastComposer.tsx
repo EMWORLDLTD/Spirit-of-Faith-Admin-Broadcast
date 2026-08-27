@@ -83,7 +83,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
   return (
     <div className="space-y-4 sm:space-y-5">
       {/* Quick Presets */}
-      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a]">
         <div className="flex items-center justify-between gap-2 mb-2.5">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
@@ -121,7 +121,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
       </div>
 
       {/* Main Composer Box */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272a]">
           <h2 className="font-outfit font-bold text-base sm:text-lg text-slate-900 dark:text-zinc-100">
             Broadcast Composer
@@ -370,7 +370,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 onClick={() => updateActiveDraft({ expiresAt: undefined })}
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   !activeDraft.expiresAt
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -386,7 +386,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activeDraft.expiresAt &&
                   Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 24 * 60 * 60 * 1000)) < 60000
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -402,7 +402,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activeDraft.expiresAt &&
                   Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 3 * 24 * 60 * 60 * 1000)) < 60000
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -418,7 +418,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activeDraft.expiresAt &&
                   Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 7 * 24 * 60 * 60 * 1000)) < 60000
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -434,7 +434,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activeDraft.expiresAt &&
                   Math.abs(new Date(activeDraft.expiresAt).getTime() - (Date.now() + 30 * 24 * 60 * 60 * 1000)) < 60000
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] hover:bg-slate-100 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -477,7 +477,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
             type="button"
             id="btn-open-broadcast-modal"
             onClick={onOpenBroadcastModal}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-xs font-bold transition-all flex items-center justify-center gap-2"
           >
             <Send className="w-4 h-4" />
             <span>

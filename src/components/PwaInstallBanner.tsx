@@ -55,7 +55,7 @@ export const PwaInstallBanner: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 mb-4">
-      <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-blue-950/70 dark:via-slate-900/90 dark:to-blue-950/70 border border-blue-200 dark:border-blue-500/30 shadow-md dark:shadow-lg flex items-center justify-between gap-3 text-xs text-slate-700 dark:text-slate-200">
+      <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-blue-950/70 dark:via-slate-900/90 dark:to-blue-950/70 border border-blue-200 dark:border-blue-500/30 flex items-center justify-between gap-3 text-xs text-slate-700 dark:text-slate-200">
         <div className="flex items-center gap-3 min-w-0">
           <div className="p-2 rounded-xl bg-blue-100 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 shrink-0">
             <Smartphone className="w-4 h-4" />
@@ -73,7 +73,7 @@ export const PwaInstallBanner: React.FC = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleInstallClick}
-            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md shadow-blue-600/20"
+            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all active:scale-95"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Install</span>
@@ -89,7 +89,7 @@ export const PwaInstallBanner: React.FC = () => {
       </div>
 
       {showIosInstructions && (
-        <div className="mt-2 p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 space-y-2 animate-in fade-in shadow-md">
+        <div className="mt-2 p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 space-y-2 animate-in fade-in">
           <div className="flex items-center justify-between font-semibold text-slate-900 dark:text-white">
             <span>Install on iOS Safari:</span>
             <button onClick={() => setShowIosInstructions(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
