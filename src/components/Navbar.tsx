@@ -200,70 +200,110 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Tab Navigation Bar (Compact App-Style Bottom/Header Tabs) */}
-      <div className="flex md:hidden border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 px-1 py-1.5 justify-between gap-1 overflow-x-auto no-scrollbar">
+      {/* Fixed Mobile Bottom Navigation Bar (App-Native Docked Bar) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl px-2 py-1.5 flex justify-around items-center shadow-lg pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <button
           id="mobile-tab-composer"
           onClick={() => setActiveTab('composer')}
-          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
+          className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
             activeTab === 'composer'
-              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
-              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
           }`}
         >
-          <Radio className="w-4 h-4 shrink-0" />
+          <div
+            className={`p-1 rounded-xl transition-all ${
+              activeTab === 'composer'
+                ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+                : 'text-slate-400 dark:text-zinc-500'
+            }`}
+          >
+            <Radio className="w-4 h-4 shrink-0" />
+          </div>
           <span className="text-[10px] tracking-tight">Compose</span>
         </button>
 
         <button
           id="mobile-tab-feed"
           onClick={() => setActiveTab('feed')}
-          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
+          className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
             activeTab === 'feed'
-              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
-              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
           }`}
         >
-          <Layers className="w-4 h-4 shrink-0" />
+          <div
+            className={`p-1 rounded-xl transition-all ${
+              activeTab === 'feed'
+                ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+                : 'text-slate-400 dark:text-zinc-500'
+            }`}
+          >
+            <Layers className="w-4 h-4 shrink-0" />
+          </div>
           <span className="text-[10px] tracking-tight">Notices</span>
         </button>
 
         <button
           id="mobile-tab-devices"
           onClick={() => setActiveTab('devices')}
-          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
+          className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
             activeTab === 'devices'
-              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
-              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
           }`}
         >
-          <Smartphone className="w-4 h-4 shrink-0" />
+          <div
+            className={`p-1 rounded-xl transition-all ${
+              activeTab === 'devices'
+                ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+                : 'text-slate-400 dark:text-zinc-500'
+            }`}
+          >
+            <Smartphone className="w-4 h-4 shrink-0" />
+          </div>
           <span className="text-[10px] tracking-tight">Devices</span>
         </button>
 
         <button
           id="mobile-tab-poller"
           onClick={() => setActiveTab('poller')}
-          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
+          className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
             activeTab === 'poller'
-              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
-              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
           }`}
         >
-          <RefreshCw className="w-4 h-4 shrink-0" />
+          <div
+            className={`p-1 rounded-xl transition-all ${
+              activeTab === 'poller'
+                ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+                : 'text-slate-400 dark:text-zinc-500'
+            }`}
+          >
+            <RefreshCw className="w-4 h-4 shrink-0" />
+          </div>
           <span className="text-[10px] tracking-tight">Poller</span>
         </button>
 
         <button
           id="mobile-tab-history"
           onClick={() => setActiveTab('history')}
-          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
+          className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
             activeTab === 'history'
-              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
-              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
           }`}
         >
-          <ExternalLink className="w-4 h-4 shrink-0" />
+          <div
+            className={`p-1 rounded-xl transition-all ${
+              activeTab === 'history'
+                ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+                : 'text-slate-400 dark:text-zinc-500'
+            }`}
+          >
+            <ExternalLink className="w-4 h-4 shrink-0" />
+          </div>
           <span className="text-[10px] tracking-tight">History</span>
         </button>
       </div>
