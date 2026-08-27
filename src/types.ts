@@ -26,8 +26,12 @@ export interface PollerStatus {
   status: 'operational' | 'polling' | 'degraded' | 'error';
   lastCheckTimestamp: string;
   totalTokens: number;
+  activeTokens?: number;
+  revokedTokens?: number;
+  unsubscribedTokens?: number;
   iosTokens?: number;
   androidTokens?: number;
+  pwaTokens?: number;
   lastDetectedItem: string;
   lastDetectedTeaching?: TeachingItem | null;
   nextScheduledPollSeconds: number;
@@ -125,9 +129,12 @@ export interface ToastMessage {
 
 export interface RegisteredDevice {
   token: string;
-  platform: 'ios' | 'android' | 'web';
+  platform: 'ios' | 'android' | 'web' | 'ios_pwa';
   registeredAt: string;
   lastActiveAt: string;
   deviceModel?: string;
   appVersion?: string;
+  status?: 'active' | 'revoked' | 'unsubscribed';
+  revokedAt?: string;
+  revokedReason?: string;
 }

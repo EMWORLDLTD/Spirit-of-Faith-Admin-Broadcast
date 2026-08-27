@@ -44,11 +44,11 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Brand & Emblem */}
           <div className="flex items-center gap-2.5">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-[#27272a] shadow-xs overflow-hidden">
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] shadow-xs overflow-hidden p-1">
               <img
-                src="/icon.svg"
-                alt="Spirit of Faith"
-                className="w-7 h-7 object-contain"
+                src="/icon.png"
+                alt="Christ Pavilion"
+                className="w-full h-full object-contain"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-outfit font-bold text-sm sm:text-base tracking-tight text-slate-900 dark:text-zinc-100">
-                  Spirit of Faith
+                  Christ Pavilion
                 </span>
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-400 dark:border-blue-800">
                   Admin Portal

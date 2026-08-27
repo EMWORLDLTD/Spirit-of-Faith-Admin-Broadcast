@@ -367,6 +367,65 @@ export class WorkerApiService {
   }
 
   /**
+   * DELETE /api/admin/devices
+   */
+  public async deleteDevice(token: string): Promise<{ success: boolean; message?: string }> {
+    if (!this.config.workerUrl?.trim() || !this.config.adminKey?.trim()) {
+      return { success: false, message: 'Worker URL or Admin Key is missing.' };
+    }
+
+    try {
+      const url = this.getCleanUrl(`/api/admin/devices?token=${encodeURIComponent(token)}`);
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        return { success: false, message: `Error ${response.status}: ${errorText}` };
+      }
+
+      const data = await response.json();
+      return { success: true, message: data.message || 'Device removed successfully.' };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Failed to delete device.' };
+    }
+  }
+
+  /**
+   * POST /api/admin/devices/prune
+   * Bulk deletes all revoked/dead devices
+   */
+  public async pruneRevokedDevices(): Promise<{ success: boolean; message?: string; prunedCount?: number }> {
+    if (!this.config.workerUrl?.trim() || !this.config.adminKey?.trim()) {
+      return { success: false, message: 'Worker URL or Admin Key is missing.' };
+    }
+
+    try {
+      const url = this.getCleanUrl('/api/admin/devices/prune');
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        return { success: false, message: `Error ${response.status}: ${errorText}` };
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.message || 'Revoked devices pruned successfully.',
+        prunedCount: data.prunedCount || 0,
+      };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Failed to prune revoked devices.' };
+    }
+  }
+
+  /**
    * 5. GET /api/admin/announcements
    */
   public async getAnnouncements(): Promise<{ success: boolean; count: number; announcements: AnnouncementItem[] }> {

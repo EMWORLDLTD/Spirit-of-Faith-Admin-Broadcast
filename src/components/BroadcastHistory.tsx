@@ -251,7 +251,7 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
                               alt={item.title}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/icon.svg';
+                                (e.target as HTMLImageElement).src = '/icon.png';
                               }}
                             />
                           ) : (
@@ -383,7 +383,7 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
                             alt={item.title}
                             className="w-full h-full object-cover"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = '/icon.svg';
+                              (e.target as HTMLImageElement).src = '/icon.png';
                             }}
                           />
                         ) : (

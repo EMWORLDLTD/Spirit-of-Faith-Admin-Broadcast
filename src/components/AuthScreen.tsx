@@ -64,16 +64,16 @@ export const AuthScreen: React.FC = () => {
       <div className="w-full max-w-md bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#27272a] shadow-xl p-6 sm:p-8 text-slate-800 dark:text-zinc-100 relative z-10">
         {/* Logo & Identity */}
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-zinc-900 p-2 shadow-sm mb-2.5 flex items-center justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-900 p-2 shadow-sm mb-2.5 flex items-center justify-center">
             <img
-              src="/icon.svg"
-              alt="Spirit of Faith"
-              className="w-10 h-10 object-contain"
+              src="/icon.png"
+              alt="Christ Pavilion"
+              className="w-12 h-12 object-contain"
               referrerPolicy="no-referrer"
             />
           </div>
           <h1 className="font-outfit font-bold text-xl text-slate-900 dark:text-zinc-100 tracking-tight">
-            Spirit of Faith
+            Christ Pavilion
           </h1>
           <p className="text-xs text-blue-600 dark:text-blue-400 font-medium tracking-wide uppercase mt-0.5">
             Admin Broadcast Portal

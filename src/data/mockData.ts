@@ -1,7 +1,7 @@
 import { BroadcastHistoryItem, PresetTemplate, TeachingItem } from '../types';
 
 export const OFFICIAL_CHURCH_ASSETS = {
-  logo: '/icon.svg',
+  logo: '/icon.png',
   sermonArtwork: 'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?q=80&w=800&auto=format&fit=crop',
   sermonGrace: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=800&auto=format&fit=crop',
   devotionalArtwork: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=800&auto=format&fit=crop',

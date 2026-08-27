@@ -122,11 +122,11 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
               <div className="relative rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-white/10 p-3 shadow-xl">
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded bg-[#0B132B] p-0.5 flex items-center justify-center">
-                      <img src="/icon.svg" alt="SOF" className="w-3 h-3 object-contain" />
+                    <div className="w-4 h-4 rounded bg-white p-0.5 flex items-center justify-center overflow-hidden">
+                      <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
                     </div>
                     <span className="text-[10px] font-bold tracking-wider text-slate-300 uppercase">
-                      SPIRIT OF FAITH
+                      CHRIST PAVILION
                     </span>
                   </div>
                   <span className="text-[9px] font-medium text-slate-400">now</span>
@@ -154,7 +154,7 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
                         alt="Preview"
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/icon.svg';
+                          (e.target as HTMLImageElement).src = '/icon.png';
                         }}
                       />
                     </div>
@@ -168,7 +168,7 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
                       alt="Banner Preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/icon.svg';
+                        (e.target as HTMLImageElement).src = '/icon.png';
                       }}
                     />
                   </div>
@@ -195,11 +195,11 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
               <div className="rounded-2xl bg-[#1E2029] border border-slate-700/60 p-3 shadow-md">
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-full bg-blue-600 p-0.5 flex items-center justify-center">
-                      <img src="/icon.svg" alt="SOF" className="w-3 h-3" />
+                    <div className="w-4 h-4 rounded-full bg-white p-0.5 flex items-center justify-center overflow-hidden">
+                      <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
                     </div>
                     <span className="text-[11px] font-semibold text-slate-200">
-                      Spirit of Faith
+                      Christ Pavilion
                     </span>
                   </div>
                   <span className="text-[9px] text-slate-400">now</span>
@@ -227,7 +227,7 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
                         alt="Preview"
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/icon.svg';
+                          (e.target as HTMLImageElement).src = '/icon.png';
                         }}
                       />
                     </div>
@@ -241,7 +241,7 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
                       alt="Banner Preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/icon.svg';
+                        (e.target as HTMLImageElement).src = '/icon.png';
                       }}
                     />
                   </div>

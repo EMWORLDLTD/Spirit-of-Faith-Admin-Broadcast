@@ -1,18 +1,23 @@
 {
-  "short_name": "SOF Broadcast",
-  "name": "Spirit of Faith Admin Broadcast Portal",
-  "description": "On-the-go Push Notification & Automation Hub for Spirit of Faith Administrators",
+  "short_name": "CP Broadcast",
+  "name": "Christ Pavilion Admin Broadcast Portal",
+  "description": "On-the-go Push Notification & Automation Hub for Christ Pavilion Administrators",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/icon.png",
       "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/png"
     }
   ],
   "start_url": "/",
-  "background_color": "#0B132B",
-  "theme_color": "#0B132B",
+  "background_color": "#1B54A4",
+  "theme_color": "#1B54A4",
   "display": "standalone",
   "orientation": "portrait"
 }
