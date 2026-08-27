@@ -9,6 +9,7 @@ import { SafetyTestingModal } from './components/SafetyTestingModal';
 import { BroadcastHistory } from './components/BroadcastHistory';
 import { DeviceManager } from './components/DeviceManager';
 import { FeedManager } from './components/FeedManager';
+import { BottomNav } from './components/BottomNav';
 import { SettingsModal } from './components/SettingsModal';
 import { ToastContainer } from './components/ToastContainer';
 import { PwaInstallBanner } from './components/PwaInstallBanner';
@@ -173,13 +174,16 @@ const AdminPortalMain: React.FC = () => {
 
       {isSettingsOpen && <SettingsModal onClose={() => setIsSettingsOpen(false)} />}
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-[#27272a] bg-white/80 dark:bg-[#09090b]/80 py-3 mt-auto">
+      {/* Desktop Footer */}
+      <footer className="hidden md:block border-t border-slate-200 dark:border-[#27272a] bg-white/80 dark:bg-[#09090b]/80 py-3 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-[11px] text-slate-500 dark:text-zinc-500">
           <span className="font-medium text-slate-700 dark:text-zinc-400">Spirit of Faith Admin</span>
           <span>Expo Push & Cloudflare Workers</span>
         </div>
       </footer>
+
+      {/* Fixed Mobile Bottom Navigation Bar */}
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 };
