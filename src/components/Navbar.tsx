@@ -200,67 +200,71 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Tab Navigation Bar */}
-      <div className="flex md:hidden border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 px-1 py-1 justify-around gap-1 overflow-x-auto">
+      {/* Mobile Tab Navigation Bar (Compact App-Style Bottom/Header Tabs) */}
+      <div className="flex md:hidden border-t border-slate-200 dark:border-[#27272a] bg-white/95 dark:bg-[#09090b]/95 px-1 py-1.5 justify-between gap-1 overflow-x-auto no-scrollbar">
         <button
           id="mobile-tab-composer"
           onClick={() => setActiveTab('composer')}
-          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
             activeTab === 'composer'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-600 dark:text-zinc-400'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
+              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
           }`}
         >
-          <Radio className="w-3 h-3" />
-          Broadcast
+          <Radio className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] tracking-tight">Compose</span>
         </button>
+
         <button
           id="mobile-tab-feed"
           onClick={() => setActiveTab('feed')}
-          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
             activeTab === 'feed'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-600 dark:text-zinc-400'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
+              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
           }`}
         >
-          <Layers className="w-3 h-3" />
-          In-App Feed
+          <Layers className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] tracking-tight">Notices</span>
         </button>
+
         <button
           id="mobile-tab-devices"
           onClick={() => setActiveTab('devices')}
-          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
             activeTab === 'devices'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-600 dark:text-zinc-400'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
+              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
           }`}
         >
-          <Smartphone className="w-3 h-3" />
-          Devices
+          <Smartphone className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] tracking-tight">Devices</span>
         </button>
+
         <button
           id="mobile-tab-poller"
           onClick={() => setActiveTab('poller')}
-          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
             activeTab === 'poller'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-600 dark:text-zinc-400'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
+              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
           }`}
         >
-          <RefreshCw className="w-3 h-3" />
-          Poller
+          <RefreshCw className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] tracking-tight">Poller</span>
         </button>
+
         <button
           id="mobile-tab-history"
           onClick={() => setActiveTab('history')}
-          className={`flex-1 py-1.5 text-center text-[10px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1 shrink-0 ${
+          className={`flex-1 py-1.5 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 min-w-[56px] ${
             activeTab === 'history'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-600 dark:text-zinc-400'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 font-bold'
+              : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 font-medium'
           }`}
         >
-          <ExternalLink className="w-3 h-3" />
-          History
+          <ExternalLink className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] tracking-tight">History</span>
         </button>
       </div>
     </header>
