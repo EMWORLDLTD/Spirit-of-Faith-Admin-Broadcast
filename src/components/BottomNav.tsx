@@ -16,10 +16,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       <button
         id="mobile-tab-composer"
         onClick={() => setActiveTab('composer')}
-        className={lex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 }
+        className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
+          activeTab === 'composer'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
+        }`}
       >
         <div
-          className={p-1 rounded-xl transition-all }
+          className={`p-1 rounded-xl transition-all ${
+            activeTab === 'composer'
+              ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+              : 'text-slate-400 dark:text-zinc-500'
+          }`}
         >
           <Radio className="w-4 h-4 shrink-0" />
         </div>
@@ -29,10 +37,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       <button
         id="mobile-tab-feed"
         onClick={() => setActiveTab('feed')}
-        className={lex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 }
+        className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
+          activeTab === 'feed'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
+        }`}
       >
         <div
-          className={p-1 rounded-xl transition-all }
+          className={`p-1 rounded-xl transition-all ${
+            activeTab === 'feed'
+              ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+              : 'text-slate-400 dark:text-zinc-500'
+          }`}
         >
           <Layers className="w-4 h-4 shrink-0" />
         </div>
@@ -42,10 +58,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       <button
         id="mobile-tab-devices"
         onClick={() => setActiveTab('devices')}
-        className={lex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 }
+        className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
+          activeTab === 'devices'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
+        }`}
       >
         <div
-          className={p-1 rounded-xl transition-all }
+          className={`p-1 rounded-xl transition-all ${
+            activeTab === 'devices'
+              ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+              : 'text-slate-400 dark:text-zinc-500'
+          }`}
         >
           <Smartphone className="w-4 h-4 shrink-0" />
         </div>
@@ -55,10 +79,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       <button
         id="mobile-tab-poller"
         onClick={() => setActiveTab('poller')}
-        className={lex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 }
+        className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
+          activeTab === 'poller'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
+        }`}
       >
         <div
-          className={p-1 rounded-xl transition-all }
+          className={`p-1 rounded-xl transition-all ${
+            activeTab === 'poller'
+              ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+              : 'text-slate-400 dark:text-zinc-500'
+          }`}
         >
           <RefreshCw className="w-4 h-4 shrink-0" />
         </div>
@@ -68,10 +100,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       <button
         id="mobile-tab-history"
         onClick={() => setActiveTab('history')}
-        className={lex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 }
+        className={`flex-1 py-1 px-1 text-center rounded-xl transition-all flex flex-col items-center justify-center gap-0.5 ${
+          activeTab === 'history'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-400 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 font-medium'
+        }`}
       >
         <div
-          className={p-1 rounded-xl transition-all }
+          className={`p-1 rounded-xl transition-all ${
+            activeTab === 'history'
+              ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400'
+              : 'text-slate-400 dark:text-zinc-500'
+          }`}
         >
           <ExternalLink className="w-4 h-4 shrink-0" />
         </div>
