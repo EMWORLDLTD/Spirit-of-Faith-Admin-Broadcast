@@ -102,26 +102,20 @@ const AdminPortalMain: React.FC = () => {
 
         {/* Tab 1: Broadcast Composer & Live Lock-Screen Simulator */}
         {activeTab === 'composer' && (
-          <div className="space-y-5">
-            {/* Quick Poller Status Mini-Bar */}
-            <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            {/* Left/Main Column: Broadcast Composer */}
+            <div className="lg:col-span-7 space-y-5">
+              <BroadcastComposer
+                onOpenTestModal={() => setSafetyModal({ isOpen: true, type: 'test' })}
+                onOpenBroadcastModal={() =>
+                  setSafetyModal({ isOpen: true, type: 'broadcastAll' })
+                }
+              />
+            </div>
 
-            {/* Side-by-side or stacked Composer + Simulator */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-              {/* Left/Main Column: Broadcast Composer */}
-              <div className="lg:col-span-7 space-y-5">
-                <BroadcastComposer
-                  onOpenTestModal={() => setSafetyModal({ isOpen: true, type: 'test' })}
-                  onOpenBroadcastModal={() =>
-                    setSafetyModal({ isOpen: true, type: 'broadcastAll' })
-                  }
-                />
-              </div>
-
-              {/* Right Column: Live Lock-Screen Simulator */}
-              <div className="lg:col-span-5 lg:sticky lg:top-20">
-                <LockScreenSimulator draft={activeDraft} />
-              </div>
+            {/* Right Column: Live Lock-Screen Simulator */}
+            <div className="lg:col-span-5 lg:sticky lg:top-20">
+              <LockScreenSimulator draft={activeDraft} />
             </div>
           </div>
         )}
