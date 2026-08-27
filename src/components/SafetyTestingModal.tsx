@@ -142,7 +142,7 @@ export const SafetyTestingModal: React.FC<SafetyTestingModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] rounded-2xl shadow-xl overflow-hidden text-slate-800 dark:text-zinc-100 flex flex-col max-h-[90vh]"
+        className="w-full max-w-lg bg-white dark:bg-[#18181b] rounded-2xl shadow-xl overflow-hidden text-slate-800 dark:text-zinc-100 flex flex-col max-h-[90vh]"
         role="dialog"
         aria-modal="true"
       >

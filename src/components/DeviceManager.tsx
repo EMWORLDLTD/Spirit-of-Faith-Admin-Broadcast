@@ -73,7 +73,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
     <div className="space-y-4 sm:space-y-5">
       {/* Header & Stats Cards */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Total</span>
             <Smartphone className="w-4 h-4 text-blue-500" />
@@ -83,7 +83,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Android</span>
             <Cpu className="w-4 h-4 text-emerald-500" />
@@ -93,7 +93,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
           </div>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">iOS</span>
             <Apple className="w-4 h-4 text-slate-700 dark:text-zinc-300" />
@@ -105,7 +105,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
       </div>
 
       {/* Search & Actions Bar */}
-      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-2.5">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-2.5">
         <div className="relative w-full sm:w-80">
           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -128,7 +128,7 @@ export const DeviceManager: React.FC<DeviceManagerProps> = ({ onSendTestToDevice
       </div>
 
       {/* Devices Table */}
-      <div className="rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#18181b] shadow-sm overflow-hidden">
         {filteredDevices.length === 0 ? (
           <div className="p-8 text-center text-xs">
             <Smartphone className="w-8 h-8 text-slate-300 dark:text-zinc-600 mx-auto mb-2" />

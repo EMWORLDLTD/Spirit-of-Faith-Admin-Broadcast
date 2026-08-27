@@ -78,7 +78,7 @@ export const PollerDashboard: React.FC<{
       )}
 
       {/* Header Banner - Compact Bento */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700/40 shrink-0">
             <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -132,7 +132,7 @@ export const PollerDashboard: React.FC<{
       {/* 2:2 Grid Column Card for Mobile, 4 columns for Desktop */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1: Poller Connection */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Poller Connection</span>
             <Radio
@@ -155,7 +155,7 @@ export const PollerDashboard: React.FC<{
         </div>
 
         {/* Metric 2: Last Automatic Check */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Last Automatic Check</span>
             <Clock className="w-4 h-4 text-blue-500 dark:text-blue-400" />
@@ -170,7 +170,7 @@ export const PollerDashboard: React.FC<{
         </div>
 
         {/* Metric 3: Active Congregation Devices */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider truncate">Active Congregation Devices</span>
             <Smartphone className="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" />
@@ -186,7 +186,7 @@ export const PollerDashboard: React.FC<{
         </div>
 
         {/* Metric 4: Sync Operations */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400 mb-1.5">
             <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider">Sync Operations</span>
             <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400" />
@@ -202,7 +202,7 @@ export const PollerDashboard: React.FC<{
 
       {/* Newest Detected Message & Audio Feed Card */}
       {pollerStatus.lastDetectedTeaching ? (
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3 pb-3 border-b border-slate-200 dark:border-[#27272a]">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">

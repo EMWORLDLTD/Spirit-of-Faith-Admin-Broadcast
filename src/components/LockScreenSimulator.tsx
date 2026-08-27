@@ -40,7 +40,7 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
   const displayImage = draft.imageUrl;
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#27272a] p-4 sm:p-5 shadow-sm">
+    <div className="flex flex-col h-full bg-white dark:bg-[#18181b] rounded-2xl p-4 sm:p-5 shadow-sm">
       {/* Control Header */}
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200 dark:border-[#27272a] flex-wrap gap-2">
         <div className="flex items-center gap-2">

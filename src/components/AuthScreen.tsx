@@ -64,7 +64,7 @@ export const AuthScreen: React.FC = () => {
       <div className="w-full max-w-md bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#27272a] shadow-xl p-6 sm:p-8 text-slate-800 dark:text-zinc-100 relative z-10">
         {/* Logo & Identity */}
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] p-2 shadow-sm mb-2.5 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-zinc-900 p-2 shadow-sm mb-2.5 flex items-center justify-center">
             <img
               src="/icon.svg"
               alt="Spirit of Faith"
@@ -134,7 +134,7 @@ export const AuthScreen: React.FC = () => {
                 setPin('');
                 setPinError(false);
               }}
-              className="h-11 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-slate-200 dark:border-[#27272a] text-xs font-semibold text-slate-600 dark:text-zinc-400 flex items-center justify-center"
+              className="h-11 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-xs font-semibold text-slate-600 dark:text-zinc-400 flex items-center justify-center"
             >
               Clear
             </button>
@@ -150,7 +150,7 @@ export const AuthScreen: React.FC = () => {
               type="button"
               id="btn-pin-backspace"
               onClick={handleBackspace}
-              className="h-11 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-slate-200 dark:border-[#27272a] text-slate-600 dark:text-zinc-400 flex items-center justify-center"
+              className="h-11 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 flex items-center justify-center"
               aria-label="Backspace"
             >
               <Delete className="w-4 h-4" />

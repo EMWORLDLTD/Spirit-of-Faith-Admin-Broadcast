@@ -82,7 +82,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
   return (
     <div className="space-y-4 sm:space-y-5">
       {/* Quick Presets */}
-      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm">
         <div className="flex items-center justify-between gap-2 mb-2.5">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
@@ -106,7 +106,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
               id={`btn-preset-${preset.id}`}
               type="button"
               onClick={() => loadPreset(preset)}
-              className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-slate-200 dark:border-[#27272a] text-left transition-all group flex flex-col justify-between"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-left transition-all group flex flex-col justify-between"
             >
               <div className="flex items-center justify-between text-xs font-semibold text-slate-800 dark:text-zinc-200 mb-0.5">
                 <span className="truncate">{preset.name}</span>
@@ -120,7 +120,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
       </div>
 
       {/* Main Composer Box */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] shadow-sm space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] shadow-sm space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272a]">
           <h2 className="font-outfit font-bold text-base sm:text-lg text-slate-900 dark:text-zinc-100">
             Broadcast Composer
