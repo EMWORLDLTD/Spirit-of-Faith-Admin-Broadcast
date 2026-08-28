@@ -63,6 +63,7 @@ export interface AnnouncementItem {
   expiresAt?: string;
   linkUrl?: string;
   priority?: 'normal' | 'high';
+  status?: 'published' | 'unpublished';
 }
 
 export interface BroadcastPayload {

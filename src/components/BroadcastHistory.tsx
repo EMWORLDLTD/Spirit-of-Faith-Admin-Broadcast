@@ -22,6 +22,8 @@ import {
   Radio,
   Layers,
   RefreshCw,
+  EyeOff,
+  Loader2,
 } from 'lucide-react';
 
 interface BroadcastHistoryProps {
@@ -47,6 +49,19 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
   const [liveAnnouncements, setLiveAnnouncements] = useState<AnnouncementItem[]>([]);
   const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(false);
 
+  // Confirmation modal state for announcements
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    action: 'unpublish' | 'publish' | 'delete';
+    item: AnnouncementItem | null;
+    isProcessing: boolean;
+  }>({
+    isOpen: false,
+    action: 'unpublish',
+    item: null,
+    isProcessing: false,
+  });
+
   const fetchLiveAnnouncements = async () => {
     setIsLoadingAnnouncements(true);
     const res = await apiService.getAnnouncements();
@@ -62,21 +77,87 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
     }
   }, [activeTab]);
 
-  const handleDeleteAnnouncement = async (id: string) => {
-    const res = await apiService.deleteAnnouncement(id);
-    if (res.success) {
-      setLiveAnnouncements((prev) => prev.filter((item) => item.id !== id));
-      addToast({
-        type: 'success',
-        title: 'Announcement Removed',
-        description: 'Removed from mobile app Home screen feed.',
-      });
-    } else {
+  const openConfirmModal = (action: 'unpublish' | 'publish' | 'delete', item: AnnouncementItem) => {
+    setConfirmModal({
+      isOpen: true,
+      action,
+      item,
+      isProcessing: false,
+    });
+  };
+
+  const closeConfirmModal = () => {
+    if (confirmModal.isProcessing) return;
+    setConfirmModal({
+      isOpen: false,
+      action: 'unpublish',
+      item: null,
+      isProcessing: false,
+    });
+  };
+
+  const handleExecuteModalAction = async () => {
+    if (!confirmModal.item) return;
+    const { action, item } = confirmModal;
+
+    setConfirmModal((prev) => ({ ...prev, isProcessing: true }));
+
+    try {
+      if (action === 'delete') {
+        const res = await apiService.deleteAnnouncement(item.id);
+        if (res.success) {
+          setLiveAnnouncements((prev) => prev.filter((a) => a.id !== item.id));
+          addToast({
+            type: 'success',
+            title: 'Notice Deleted',
+            description: `"${item.title}" was permanently deleted.`,
+            duration: 3500,
+          });
+          closeConfirmModal();
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Delete Failed',
+            description: res.message || 'Could not delete announcement.',
+            duration: 4000,
+          });
+          setConfirmModal((prev) => ({ ...prev, isProcessing: false }));
+        }
+      } else {
+        const newStatus: 'published' | 'unpublished' = action === 'publish' ? 'published' : 'unpublished';
+        const res = await apiService.toggleAnnouncementStatus(item.id, newStatus);
+        if (res.success) {
+          setLiveAnnouncements((prev) =>
+            prev.map((a) => (a.id === item.id ? { ...a, status: newStatus } : a))
+          );
+          addToast({
+            type: 'success',
+            title: action === 'publish' ? 'Notice Published' : 'Notice Unpublished',
+            description:
+              action === 'publish'
+                ? `"${item.title}" is now live on all congregation mobile apps.`
+                : `"${item.title}" is now hidden from congregation mobile apps.`,
+            duration: 3500,
+          });
+          closeConfirmModal();
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Status Update Failed',
+            description: res.message || 'Could not update status.',
+            duration: 4000,
+          });
+          setConfirmModal((prev) => ({ ...prev, isProcessing: false }));
+        }
+      }
+    } catch (err: any) {
       addToast({
         type: 'error',
-        title: 'Delete Failed',
-        description: res.message || 'Could not delete announcement from server.',
+        title: 'Error',
+        description: err.message || 'Network error occurred.',
+        duration: 4000,
       });
+      setConfirmModal((prev) => ({ ...prev, isProcessing: false }));
     }
   };
 
@@ -401,9 +482,17 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
                             {item.type}
                           </span>
                           <span>•</span>
-                          <span className="text-emerald-600 dark:text-emerald-400 font-medium text-[10px]">
-                            Live on App
-                          </span>
+                          {(item.status || 'published') === 'published' ? (
+                            <span className="text-emerald-600 dark:text-emerald-400 font-medium text-[10px] flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              Live on App
+                            </span>
+                          ) : (
+                            <span className="text-amber-600 dark:text-amber-400 font-medium text-[10px] flex items-center gap-1">
+                              <EyeOff className="w-3 h-3" />
+                              Unpublished / Hidden
+                            </span>
+                          )}
                         </div>
 
                         <h4 className="text-xs font-bold text-slate-900 dark:text-zinc-100">
@@ -416,12 +505,30 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                      {(item.status || 'published') === 'published' ? (
+                        <button
+                          onClick={() => openConfirmModal('unpublish', item)}
+                          className="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-700 dark:text-amber-300 text-xs font-semibold flex items-center gap-1 transition-colors"
+                        >
+                          <EyeOff className="w-3.5 h-3.5" />
+                          <span>Unpublish</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => openConfirmModal('publish', item)}
+                          className="px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-1 transition-colors"
+                        >
+                          <Radio className="w-3.5 h-3.5" />
+                          <span>Publish</span>
+                        </button>
+                      )}
+
                       <button
-                        onClick={() => handleDeleteAnnouncement(item.id)}
+                        onClick={() => openConfirmModal('delete', item)}
                         className="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-1 transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
-                        <span>Unpin / Remove</span>
+                        <span>Delete</span>
                       </button>
                     </div>
                   </div>
@@ -429,6 +536,107 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
               })}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {confirmModal.isOpen && confirmModal.item && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div
+            className="w-full max-w-md bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] rounded-2xl p-5 text-slate-800 dark:text-zinc-100 space-y-4"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`p-2.5 rounded-xl border ${
+                    confirmModal.action === 'unpublish'
+                      ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/60'
+                      : confirmModal.action === 'publish'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60'
+                      : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/60'
+                  }`}
+                >
+                  {confirmModal.action === 'unpublish' && <EyeOff className="w-5 h-5" />}
+                  {confirmModal.action === 'publish' && <Radio className="w-5 h-5" />}
+                  {confirmModal.action === 'delete' && <Trash2 className="w-5 h-5" />}
+                </div>
+
+                <div>
+                  <h3 className="font-outfit font-bold text-base text-slate-900 dark:text-zinc-100">
+                    {confirmModal.action === 'unpublish' && 'Unpublish Announcement?'}
+                    {confirmModal.action === 'publish' && 'Publish Announcement?'}
+                    {confirmModal.action === 'delete' && 'Permanently Delete Announcement?'}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
+                    {confirmModal.action === 'unpublish' && 'Hide notice from congregation app feed'}
+                    {confirmModal.action === 'publish' && 'Display notice on congregation app feed'}
+                    {confirmModal.action === 'delete' && 'Irreversible database purge'}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={closeConfirmModal}
+                disabled={confirmModal.isProcessing}
+                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-zinc-200 transition-colors disabled:opacity-50"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] text-xs space-y-1">
+              <span className="font-bold text-slate-900 dark:text-zinc-100 block truncate">
+                {confirmModal.item.title}
+              </span>
+              <p className="text-slate-600 dark:text-zinc-400 line-clamp-2 text-[11px]">
+                {confirmModal.item.body}
+              </p>
+            </div>
+
+            <div className="pt-2 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={closeConfirmModal}
+                disabled={confirmModal.isProcessing}
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-200 dark:border-[#27272a] text-xs font-semibold text-slate-700 dark:text-zinc-300 transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExecuteModalAction}
+                disabled={confirmModal.isProcessing}
+                className={`px-4 py-2 rounded-xl text-xs font-bold text-white transition-all flex items-center gap-1.5 disabled:opacity-50 ${
+                  confirmModal.action === 'unpublish'
+                    ? 'bg-amber-600 hover:bg-amber-500'
+                    : confirmModal.action === 'publish'
+                    ? 'bg-emerald-600 hover:bg-emerald-500'
+                    : 'bg-rose-600 hover:bg-rose-500'
+                }`}
+              >
+                {confirmModal.isProcessing ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    {confirmModal.action === 'unpublish' && <EyeOff className="w-3.5 h-3.5" />}
+                    {confirmModal.action === 'publish' && <Radio className="w-3.5 h-3.5" />}
+                    {confirmModal.action === 'delete' && <Trash2 className="w-3.5 h-3.5" />}
+                    <span>
+                      {confirmModal.action === 'unpublish' && 'Unpublish from App'}
+                      {confirmModal.action === 'publish' && 'Publish to App Feed'}
+                      {confirmModal.action === 'delete' && 'Delete Permanently'}
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

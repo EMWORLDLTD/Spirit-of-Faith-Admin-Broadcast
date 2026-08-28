@@ -503,7 +503,43 @@ export class WorkerApiService {
   }
 
   /**
-   * 7. DELETE /api/admin/announcements
+   * 7. PATCH /api/admin/announcements
+   * Toggles status between 'published' and 'unpublished'
+   */
+  public async toggleAnnouncementStatus(
+    id: string,
+    status: 'published' | 'unpublished'
+  ): Promise<{ success: boolean; message?: string; announcement?: AnnouncementItem }> {
+    if (!this.config.workerUrl?.trim()) {
+      return { success: false, message: 'Worker URL not configured' };
+    }
+
+    try {
+      const url = this.getCleanUrl('/api/admin/announcements');
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: this.getAuthHeaders(),
+        body: JSON.stringify({ id, status }),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        return { success: false, message: errText || 'Failed to update announcement status' };
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.message || `Announcement status set to ${status}.`,
+        announcement: data.announcement,
+      };
+    } catch (err: unknown) {
+      return { success: false, message: err instanceof Error ? err.message : 'Network error' };
+    }
+  }
+
+  /**
+   * 8. DELETE /api/admin/announcements
    */
   public async deleteAnnouncement(id: string): Promise<{ success: boolean; message?: string }> {
     if (!this.config.workerUrl?.trim()) {
