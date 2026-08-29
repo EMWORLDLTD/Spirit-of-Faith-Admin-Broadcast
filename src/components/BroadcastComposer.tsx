@@ -71,8 +71,17 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
   ];
 
   const handleTypeChange = (newType: NotificationType) => {
+    let newImageUrl = activeDraft.imageUrl;
+    if (newType === 'devotional') {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      newImageUrl = `https://res.cloudinary.com/ggfhaver/image/upload/c_fill,w_1080,h_1080,q_auto:best,f_auto/devotionals/${yyyy}_${mm}_${dd}.jpg`;
+    }
     updateActiveDraft({
       type: newType,
+      imageUrl: newImageUrl,
       data: {
         ...activeDraft.data,
         type: newType,
