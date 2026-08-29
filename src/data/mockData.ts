@@ -4,7 +4,7 @@ export const OFFICIAL_CHURCH_ASSETS = {
   logo: '/icon.png',
   sermonArtwork: 'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?q=80&w=800&auto=format&fit=crop',
   sermonGrace: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=800&auto=format&fit=crop',
-  devotionalArtwork: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=800&auto=format&fit=crop',
+  devotionalArtwork: 'https://res.cloudinary.com/ggfhaver/image/upload/c_fill,w_1080,h_1080,q_auto:best,f_auto/devotionals/2026_08_28.jpg',
   eventArtwork: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
   announcementArtwork: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop',
   prayerArtwork: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=800&auto=format&fit=crop',
