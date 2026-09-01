@@ -510,6 +510,17 @@ export class WorkerApiService {
     id: string,
     status: 'published' | 'unpublished'
   ): Promise<{ success: boolean; message?: string; announcement?: AnnouncementItem }> {
+    return this.updateAnnouncement(id, { status });
+  }
+
+  /**
+   * 7b. PATCH /api/admin/announcements
+   * Updates any announcement fields in place
+   */
+  public async updateAnnouncement(
+    id: string,
+    updates: Partial<AnnouncementItem>
+  ): Promise<{ success: boolean; message?: string; announcement?: AnnouncementItem }> {
     if (!this.config.workerUrl?.trim()) {
       return { success: false, message: 'Worker URL not configured' };
     }
@@ -519,18 +530,18 @@ export class WorkerApiService {
       const response = await fetch(url, {
         method: 'PATCH',
         headers: this.getAuthHeaders(),
-        body: JSON.stringify({ id, status }),
+        body: JSON.stringify({ id, ...updates }),
       });
 
       if (!response.ok) {
         const errText = await response.text();
-        return { success: false, message: errText || 'Failed to update announcement status' };
+        return { success: false, message: errText || 'Failed to update announcement' };
       }
 
       const data = await response.json();
       return {
         success: true,
-        message: data.message || `Announcement status set to ${status}.`,
+        message: data.message || 'Announcement updated successfully.',
         announcement: data.announcement,
       };
     } catch (err: unknown) {
