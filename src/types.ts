@@ -64,6 +64,12 @@ export interface AnnouncementItem {
   linkUrl?: string;
   priority?: 'normal' | 'high';
   status?: 'published' | 'unpublished';
+  displayType?: 'inline' | 'popup_modal';
+  popupStyle?: 'card' | 'image_only';
+  actionText?: string;
+  actionRoute?: string;
+  isDismissible?: boolean;
+  showOnce?: boolean;
 }
 
 export interface BroadcastPayload {
@@ -78,6 +84,12 @@ export interface BroadcastPayload {
   sendPush?: boolean;
   saveToFeed?: boolean;
   expiresAt?: string;
+  displayType?: 'inline' | 'popup_modal';
+  popupStyle?: 'card' | 'image_only';
+  actionText?: string;
+  actionRoute?: string;
+  isDismissible?: boolean;
+  showOnce?: boolean;
 }
 
 export interface BroadcastResult {

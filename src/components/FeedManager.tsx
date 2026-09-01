@@ -349,6 +349,22 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                       {item.type}
                     </span>
 
+                    {/* In-App Launch Pop-up Badge */}
+                    {item.displayType === 'popup_modal' && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                        <Sparkles className="w-3 h-3 text-purple-500" />
+                        {item.popupStyle === 'image_only' ? 'Flyer Pop-up' : 'Card Pop-up'}
+                      </span>
+                    )}
+
+                    {/* Action Route Destination */}
+                    {item.displayType === 'popup_modal' && item.actionRoute && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono text-slate-500 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-[#27272a]">
+                        <ExternalLink className="w-2.5 h-2.5 text-blue-500" />
+                        {item.actionRoute}
+                      </span>
+                    )}
+
                     {/* Expiry Pill */}
                     {hasExpiry && expiryDate ? (
                       <span
