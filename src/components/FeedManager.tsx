@@ -730,9 +730,6 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                   <h3 className="font-bold text-base text-slate-900 dark:text-zinc-100 leading-none">
                     Edit Announcement
                   </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-1">
-                    Update live details, pop-up options, or status
-                  </p>
                 </div>
               </div>
 
@@ -863,9 +860,6 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                     <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 block">
                       Pin to App Announcements
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                      Displays in the in-app Announcements list on the Home screen
-                    </span>
                   </div>
                 </label>
 
@@ -888,10 +882,7 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                     <div className="flex-1">
                       <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                        Show as Pop-up Modal on App Launch
-                      </span>
-                      <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                        Appears on user phone screen immediately when opening the app
+                        In-App Launch Pop-up Modal
                       </span>
                     </div>
                   </label>
@@ -920,7 +911,6 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                           }`}
                         >
                           <span className="text-xs font-bold block">Standard Card</span>
-                          <span className="text-[10px] text-slate-500 dark:text-zinc-400">Card with text & buttons</span>
                         </button>
 
                         <button
@@ -938,7 +928,6 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                           }`}
                         >
                           <span className="text-xs font-bold block">Image-Only Flyer</span>
-                          <span className="text-[10px] text-slate-500 dark:text-zinc-400">Full-bleed clickable poster</span>
                         </button>
                       </div>
                     </div>

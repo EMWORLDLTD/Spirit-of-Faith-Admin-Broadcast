@@ -412,9 +412,6 @@ export const BroadcastHistory: React.FC<BroadcastHistoryProps> = ({
               <h2 className="font-outfit font-bold text-base sm:text-lg text-slate-900 dark:text-zinc-100">
                 Live App Announcements Feed
               </h2>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
-                Active cards visible to congregation members inside the mobile app's announcement panel.
-              </p>
             </div>
 
             <button

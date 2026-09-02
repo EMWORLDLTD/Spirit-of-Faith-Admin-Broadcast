@@ -172,28 +172,7 @@ const AdminPortalMain: React.FC = () => {
 
         {/* Tab 3: Automation & 15-Min Poller Status */}
         {activeTab === 'poller' && (
-          <div className="space-y-5">
-            <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] text-xs space-y-3">
-              <h3 className="font-outfit font-bold text-sm sm:text-base text-slate-900 dark:text-zinc-100">
-                Automation Architecture
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
-                  <span className="font-semibold text-blue-600 dark:text-blue-400 block mb-0.5">1. Audio Sermons</span>
-                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Auto-scrapes messages & metadata every 15m.</span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
-                  <span className="font-semibold text-amber-600 dark:text-amber-400 block mb-0.5">2. Daily Devotionals</span>
-                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Checks morning readings & notifications.</span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a]">
-                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 block mb-0.5">3. Push Gateway</span>
-                  <span className="text-slate-600 dark:text-zinc-400 text-[11px]">Dispatches push payloads via Expo Push.</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PollerDashboard onComposeWithTeaching={handleComposeWithLatestTeaching} />
         )}
 
         {/* Tab 4: Broadcast History Log */}

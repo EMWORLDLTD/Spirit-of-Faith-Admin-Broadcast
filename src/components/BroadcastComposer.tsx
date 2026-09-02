@@ -343,14 +343,9 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 onChange={(e) => updateActiveDraft({ saveToFeed: e.target.checked })}
                 className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
               />
-              <div>
-                <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 block">
-                  Pin to App Announcements
-                </span>
-                <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                  Displays on mobile Home screen panel
-                </span>
-              </div>
+              <span className="text-xs font-bold text-slate-900 dark:text-zinc-100">
+                Pin to App Announcements
+              </span>
             </label>
 
             <label className="flex items-center gap-2.5 p-2.5 rounded-lg bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] cursor-pointer hover:border-blue-300 dark:hover:border-zinc-600 transition-colors">
@@ -360,53 +355,43 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                 onChange={(e) => updateActiveDraft({ sendPush: e.target.checked })}
                 className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
               />
-              <div>
-                <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 block">
-                  Send Push Notification
-                </span>
-                <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                  Alerts {pollerStatus.totalTokens.toLocaleString()} mobile devices
-                </span>
-              </div>
+              <span className="text-xs font-bold text-slate-900 dark:text-zinc-100">
+                Send Push Notification
+              </span>
             </label>
 
             {/* 3. In-App Launch Pop-up Option */}
-            <label className={`flex items-center gap-2.5 p-2.5 rounded-lg border cursor-pointer transition-colors sm:col-span-2 ${
+            <label className={`flex items-center justify-between p-2.5 rounded-lg border cursor-pointer transition-colors sm:col-span-2 ${
               activeDraft.displayType === 'popup_modal'
                 ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800'
                 : 'bg-white dark:bg-[#18181b] border-slate-200 dark:border-[#27272a] hover:border-blue-300 dark:hover:border-zinc-600'
             }`}>
-              <input
-                type="checkbox"
-                checked={activeDraft.displayType === 'popup_modal'}
-                onChange={(e) =>
-                  updateActiveDraft({
-                    displayType: e.target.checked ? 'popup_modal' : 'inline',
-                    popupStyle: activeDraft.popupStyle || 'card',
-                    isDismissible: activeDraft.isDismissible !== false,
-                    showOnce: activeDraft.showOnce !== false,
-                    actionRoute: activeDraft.actionRoute || (activeDraft.type === 'event' ? '/events' : activeDraft.type === 'audio' ? '/teachings' : activeDraft.type === 'devotional' ? '/devotionals' : '/events'),
-                    actionText: activeDraft.actionText || (activeDraft.type === 'event' ? 'View Event Details' : activeDraft.type === 'audio' ? 'Listen Now' : 'Explore Now'),
-                  })
-                }
-                className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
-              />
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    In-App Launch Pop-up Modal
-                  </span>
-                  {activeDraft.displayType === 'popup_modal' && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-white">
-                      Active
-                    </span>
-                  )}
-                </div>
-                <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                  Pops up on user phone screen immediately when Christ Pavilion app is opened
+              <div className="flex items-center gap-2.5">
+                <input
+                  type="checkbox"
+                  checked={activeDraft.displayType === 'popup_modal'}
+                  onChange={(e) =>
+                    updateActiveDraft({
+                      displayType: e.target.checked ? 'popup_modal' : 'inline',
+                      popupStyle: activeDraft.popupStyle || 'card',
+                      isDismissible: activeDraft.isDismissible !== false,
+                      showOnce: activeDraft.showOnce !== false,
+                      actionRoute: activeDraft.actionRoute || (activeDraft.type === 'event' ? '/events' : activeDraft.type === 'audio' ? '/teachings' : activeDraft.type === 'devotional' ? '/devotionals' : '/events'),
+                      actionText: activeDraft.actionText || (activeDraft.type === 'event' ? 'View Event Details' : activeDraft.type === 'audio' ? 'Listen Now' : 'Explore Now'),
+                    })
+                  }
+                  className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
+                />
+                <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  In-App Launch Pop-up Modal
                 </span>
               </div>
+              {activeDraft.displayType === 'popup_modal' && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-white">
+                  Active
+                </span>
+              )}
             </label>
           </div>
 
@@ -423,41 +408,31 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                   <button
                     type="button"
                     onClick={() => updateActiveDraft({ popupStyle: 'card' })}
-                    className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between ${
+                    className={`p-2.5 rounded-xl text-left border transition-all flex items-center justify-between ${
                       (activeDraft.popupStyle || 'card') === 'card'
                         ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-500 dark:border-blue-500 text-blue-950 dark:text-blue-200'
                         : 'bg-white dark:bg-[#18181b] border-slate-200 dark:border-[#27272a] text-slate-700 dark:text-zinc-300 hover:border-slate-300'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold">Standard Card</span>
-                      {(activeDraft.popupStyle || 'card') === 'card' && (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                      )}
-                    </div>
-                    <p className="text-[10px] text-slate-500 dark:text-zinc-400">
-                      Title + message text + action buttons (optional image banner on top)
-                    </p>
+                    <span className="text-xs font-bold">Standard Card</span>
+                    {(activeDraft.popupStyle || 'card') === 'card' && (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                    )}
                   </button>
 
                   <button
                     type="button"
                     onClick={() => updateActiveDraft({ popupStyle: 'image_only' })}
-                    className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between ${
+                    className={`p-2.5 rounded-xl text-left border transition-all flex items-center justify-between ${
                       activeDraft.popupStyle === 'image_only'
                         ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-500 dark:border-amber-500 text-amber-950 dark:text-amber-200'
                         : 'bg-white dark:bg-[#18181b] border-slate-200 dark:border-[#27272a] text-slate-700 dark:text-zinc-300 hover:border-slate-300'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold">Image-Only Flyer</span>
-                      {activeDraft.popupStyle === 'image_only' && (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                      )}
-                    </div>
-                    <p className="text-[10px] text-slate-500 dark:text-zinc-400">
-                      Full clickable poster/flyer with floating top-right close icon
-                    </p>
+                    <span className="text-xs font-bold">Image-Only Flyer</span>
+                    {activeDraft.popupStyle === 'image_only' && (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    )}
                   </button>
                 </div>
                 {activeDraft.popupStyle === 'image_only' && !activeDraft.imageUrl && (
@@ -509,14 +484,9 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                     onChange={(e) => updateActiveDraft({ isDismissible: e.target.checked })}
                     className="w-3.5 h-3.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
                   />
-                  <div>
-                    <span className="text-[11px] font-bold text-slate-800 dark:text-zinc-200 block">
-                      Allow Dismissal
-                    </span>
-                    <span className="text-[9px] text-slate-500 dark:text-zinc-400 block">
-                      Shows "Later" / "X" button. Uncheck to force user to tap action
-                    </span>
-                  </div>
+                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
+                    Allow Dismissal (Close button)
+                  </span>
                 </label>
 
                 <label className="flex items-center gap-2 p-2 rounded-lg bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] cursor-pointer">
@@ -526,14 +496,9 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                     onChange={(e) => updateActiveDraft({ showOnce: e.target.checked })}
                     className="w-3.5 h-3.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
                   />
-                  <div>
-                    <span className="text-[11px] font-bold text-slate-800 dark:text-zinc-200 block">
-                      Show Once Only
-                    </span>
-                    <span className="text-[9px] text-slate-500 dark:text-zinc-400 block">
-                      Never shows again on this device once dismissed or tapped
-                    </span>
-                  </div>
+                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
+                    Show Once Only
+                  </span>
                 </label>
               </div>
             </div>
@@ -688,9 +653,6 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                   className="w-full sm:w-auto px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
                 />
               </div>
-              <p className="text-[10px] text-slate-500 dark:text-zinc-400">
-                When expired, this notice is automatically removed and pruned from all user mobile devices.
-              </p>
             </div>
           </div>
         )}
