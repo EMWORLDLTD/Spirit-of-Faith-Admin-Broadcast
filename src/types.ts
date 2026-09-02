@@ -70,6 +70,8 @@ export interface AnnouncementItem {
   actionRoute?: string;
   isDismissible?: boolean;
   showOnce?: boolean;
+  publishAt?: string;
+  pinToFeed?: boolean;
 }
 
 export interface BroadcastPayload {
@@ -84,6 +86,8 @@ export interface BroadcastPayload {
   sendPush?: boolean;
   saveToFeed?: boolean;
   expiresAt?: string;
+  publishAt?: string;
+  pinToFeed?: boolean;
   displayType?: 'inline' | 'popup_modal';
   popupStyle?: 'card' | 'image_only';
   actionText?: string;

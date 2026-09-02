@@ -55,7 +55,15 @@ const AdminPortalMain: React.FC = () => {
       type: item.type,
       imageUrl: item.imageUrl,
       expiresAt: item.expiresAt,
-      data: { linkUrl: item.linkUrl },
+      publishAt: item.publishAt,
+      saveToFeed: item.pinToFeed !== false,
+      displayType: item.displayType,
+      popupStyle: item.popupStyle,
+      actionText: item.actionText,
+      actionRoute: item.actionRoute,
+      isDismissible: item.isDismissible,
+      showOnce: item.showOnce,
+      data: { type: item.type, linkUrl: item.linkUrl },
     });
     setActiveTab('composer');
   };

@@ -78,6 +78,8 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
         actionRoute: item.actionRoute || '/events',
         isDismissible: item.isDismissible !== false,
         showOnce: item.showOnce !== false,
+        pinToFeed: item.pinToFeed !== false,
+        publishAt: item.publishAt || '',
       },
       isSaving: false,
     });
@@ -445,6 +447,21 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
                         <Sparkles className="w-3 h-3 text-purple-500" />
                         {item.popupStyle === 'image_only' ? 'Flyer Pop-up' : 'Card Pop-up'}
+                      </span>
+                    )}
+
+                    {/* Pop-up Only / Unpinned Badge */}
+                    {item.displayType === 'popup_modal' && item.pinToFeed === false && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                        Pop-up Only (Hidden from Feed)
+                      </span>
+                    )}
+
+                    {/* Scheduled Badge */}
+                    {item.publishAt && new Date(item.publishAt).getTime() > Date.now() && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                        <Clock className="w-3 h-3 text-blue-500" />
+                        Scheduled: {new Date(item.publishAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                       </span>
                     )}
 
@@ -825,33 +842,60 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                 />
               </div>
 
-              {/* In-App Launch Pop-up Settings */}
+              {/* Delivery Channels in Edit Modal */}
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] space-y-2.5">
                 <label className="flex items-center gap-2.5 cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={editModal.form.displayType === 'popup_modal'}
+                    checked={editModal.form.pinToFeed !== false}
                     onChange={(e) =>
                       setEditModal((prev) => ({
                         ...prev,
                         form: {
                           ...prev.form,
-                          displayType: e.target.checked ? 'popup_modal' : 'inline',
+                          pinToFeed: e.target.checked,
                         },
                       }))
                     }
-                    className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
+                    className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
                   />
                   <div className="flex-1">
-                    <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      Show as Pop-up Modal on App Launch
+                    <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 block">
+                      Pin to App Announcements
                     </span>
                     <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
-                      Appears on user phone screen immediately when opening the app
+                      Displays in the in-app Announcements list on the Home screen
                     </span>
                   </div>
                 </label>
+
+                <div className="pt-2 border-t border-slate-200 dark:border-[#27272a]">
+                  <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editModal.form.displayType === 'popup_modal'}
+                      onChange={(e) =>
+                        setEditModal((prev) => ({
+                          ...prev,
+                          form: {
+                            ...prev.form,
+                            displayType: e.target.checked ? 'popup_modal' : 'inline',
+                          },
+                        }))
+                      }
+                      className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
+                    />
+                    <div className="flex-1">
+                      <span className="text-xs font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                        Show as Pop-up Modal on App Launch
+                      </span>
+                      <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                        Appears on user phone screen immediately when opening the app
+                      </span>
+                    </div>
+                  </label>
+                </div>
 
                 {editModal.form.displayType === 'popup_modal' && (
                   <div className="pt-2 border-t border-slate-200 dark:border-[#27272a] space-y-2.5">
@@ -982,8 +1026,8 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                 )}
               </div>
 
-              {/* Status and Expiration */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              {/* Status, Schedule and Expiration */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1">
                     Live Status
@@ -1004,6 +1048,32 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                     <option value="published">Published (Live on App)</option>
                     <option value="unpublished">Unpublished (Hidden / Draft)</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1">
+                    Schedule Go-Live
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={
+                      editModal.form.publishAt
+                        ? editModal.form.publishAt.substring(0, 16)
+                        : ''
+                    }
+                    onChange={(e) =>
+                      setEditModal((prev) => ({
+                        ...prev,
+                        form: {
+                          ...prev.form,
+                          publishAt: e.target.value
+                            ? new Date(e.target.value).toISOString()
+                            : undefined,
+                        },
+                      }))
+                    }
+                    className="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-zinc-900 border border-slate-300 dark:border-[#27272a] rounded-lg text-xs"
+                  />
                 </div>
 
                 <div>
