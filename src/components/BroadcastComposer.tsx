@@ -143,37 +143,23 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
           </span>
         </div>
 
-        {/* 1. Category Selector */}
+        {/* 1. Category Selector Dropdown */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+          <label className="block text-xs font-semibold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">
             Category
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {typeOptions.map((opt) => {
-              const isSelected = activeDraft.type === opt.type;
-              return (
-                <button
-                  key={opt.type}
-                  id={`type-selector-${opt.type}`}
-                  type="button"
-                  onClick={() => handleTypeChange(opt.type)}
-                  className={`p-2.5 rounded-xl border text-left transition-all ${
-                    isSelected
-                      ? 'bg-blue-50 border-blue-500 text-blue-900 dark:bg-blue-950/50 dark:border-blue-500 dark:text-blue-200'
-                      : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-zinc-900 dark:border-[#27272a] dark:text-zinc-400'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="p-1 rounded bg-white dark:bg-zinc-800 border border-slate-200 dark:border-[#27272a]">
-                      {opt.icon}
-                    </div>
-                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />}
-                  </div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-zinc-100">{opt.label}</h4>
-                </button>
-              );
-            })}
-          </div>
+          <select
+            id="composer-select-category"
+            value={activeDraft.type}
+            onChange={(e) => handleTypeChange(e.target.value as NotificationType)}
+            className="w-full px-3 py-2 bg-slate-50 dark:bg-zinc-900 border border-slate-300 dark:border-[#27272a] rounded-xl text-xs font-medium text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-500"
+          >
+            {typeOptions.map((opt) => (
+              <option key={opt.type} value={opt.type}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* 2. Notification Title */}
@@ -339,12 +325,17 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
             <label className="flex items-center gap-2.5 p-2.5 rounded-lg bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] cursor-pointer hover:border-blue-300 dark:hover:border-zinc-600 transition-colors">
               <input
                 type="checkbox"
-                checked={activeDraft.saveToFeed !== false}
-                onChange={(e) => updateActiveDraft({ saveToFeed: e.target.checked })}
+                checked={activeDraft.saveToFeed !== false && activeDraft.pinToFeed !== false}
+                onChange={(e) =>
+                  updateActiveDraft({
+                    saveToFeed: e.target.checked,
+                    pinToFeed: e.target.checked,
+                  })
+                }
                 className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-[#27272a] bg-white dark:bg-zinc-800"
               />
               <span className="text-xs font-bold text-slate-900 dark:text-zinc-100">
-                Pin to App Announcements
+                Pin to Announcements Feed
               </span>
             </label>
 
