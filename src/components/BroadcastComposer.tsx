@@ -560,7 +560,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                   </button>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <input
                   type="datetime-local"
                   value={activeDraft.publishAt ? activeDraft.publishAt.substring(0, 16) : ''}
@@ -572,7 +572,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                       updateActiveDraft({ publishAt: undefined });
                     }
                   }}
-                  className="px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
+                  className="w-full sm:w-auto px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
                 />
                 <span className="text-[10px] text-slate-500 dark:text-zinc-400">
                   {activeDraft.publishAt
@@ -685,7 +685,7 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
                       updateActiveDraft({ expiresAt: undefined });
                     }
                   }}
-                  className="px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
+                  className="w-full sm:w-auto px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-[#18181b] text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-[#27272a] focus:border-blue-500 focus:outline-none"
                 />
               </div>
               <p className="text-[10px] text-slate-500 dark:text-zinc-400">

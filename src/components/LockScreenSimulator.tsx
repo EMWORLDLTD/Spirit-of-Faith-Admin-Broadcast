@@ -90,171 +90,180 @@ export const LockScreenSimulator: React.FC<LockScreenSimulatorProps> = ({ draft 
       </div>
 
       {/* Realistic Device Screen Wrapper */}
-      <div className="flex-1 flex items-center justify-center p-1">
-        {devicePlatform === 'ios' ? (
-          /* ================= iOS LOCK SCREEN ================= */
-          <div className="w-full max-w-[320px] rounded-[40px] bg-[#0A0D14] border-[6px] border-slate-800 overflow-hidden p-3 relative text-white font-sans select-none flex flex-col justify-between min-h-[460px]">
-            {/* Dynamic Island Notch */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full flex items-center justify-between px-2.5 z-30">
-              <div className="w-2 h-2 rounded-full bg-slate-900 border border-slate-800" />
-              <div className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                <span className="text-[9px] font-medium text-slate-400">SOF</span>
+      {isExpanded ? (
+        <div className="flex-1 flex items-center justify-center p-1">
+          {devicePlatform === 'ios' ? (
+            /* ================= iOS LOCK SCREEN ================= */
+            <div className="w-full max-w-[310px] sm:max-w-[320px] mx-auto rounded-[40px] bg-[#0A0D14] border-[5px] sm:border-[6px] border-slate-800 overflow-hidden p-3 relative text-white font-sans select-none flex flex-col justify-between min-h-[440px] sm:min-h-[460px]">
+              {/* Dynamic Island Notch */}
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full flex items-center justify-between px-2.5 z-30">
+                <div className="w-2 h-2 rounded-full bg-slate-900 border border-slate-800" />
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                  <span className="text-[9px] font-medium text-slate-400">SOF</span>
+                </div>
+              </div>
+
+              {/* Lock Screen Clock */}
+              <div className="pt-6 text-center">
+                <span className="text-[10px] font-semibold tracking-wide text-slate-300">
+                  {new Date().toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </span>
+                <h1 className="text-4xl font-light tracking-tight text-white/90 font-outfit mt-0.5">
+                  {simulatedTime}
+                </h1>
+              </div>
+
+              {/* iOS Notification Card */}
+              <div className="my-auto pt-3 pb-2">
+                <div className="relative rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-white/10 p-3">
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-4 rounded bg-white p-0.5 flex items-center justify-center overflow-hidden">
+                        <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
+                      </div>
+                      <span className="text-[10px] font-bold tracking-wider text-slate-300 uppercase">
+                        CHRIST PAVILION
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-medium text-slate-400">now</span>
+                  </div>
+
+                  <div className="flex items-start gap-2.5">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-xs font-bold text-white leading-snug break-words">
+                        {displayTitle}
+                      </h4>
+                      {displaySubtitle && (
+                        <p className="text-[11px] font-medium text-blue-400 leading-tight mt-0.5">
+                          {displaySubtitle}
+                        </p>
+                      )}
+                      <p className="text-[11px] text-slate-300 leading-relaxed mt-1 line-clamp-3">
+                        {displayBody}
+                      </p>
+                    </div>
+
+                    {/* Small preview icon on the right */}
+                    {!displayImage && (
+                      <div className="w-9 h-9 rounded-xl bg-blue-600/30 border border-blue-500/40 flex items-center justify-center shrink-0">
+                        {draft.type === 'audio' && <Volume2 className="w-4 h-4 text-blue-400" />}
+                        {draft.type === 'devotional' && <BookOpen className="w-4 h-4 text-amber-400" />}
+                        {draft.type === 'event' && <Calendar className="w-4 h-4 text-emerald-400" />}
+                        {draft.type === 'announcement' && <Bell className="w-4 h-4 text-purple-400" />}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Rich Big Picture Attachment if present */}
+                  {displayImage && (
+                    <div className="mt-2.5 rounded-xl overflow-hidden h-28 bg-slate-800 border border-white/10">
+                      <img
+                        src={displayImage}
+                        alt="Notification Banner"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/icon.png';
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="pb-2 flex justify-center">
+                <div className="w-20 h-1 bg-white/40 rounded-full" />
               </div>
             </div>
+          ) : (
+            /* ================= ANDROID LOCK SCREEN ================= */
+            <div className="w-full max-w-[310px] sm:max-w-[320px] mx-auto rounded-[36px] bg-[#121318] border-[5px] border-slate-800 overflow-hidden p-3 relative text-slate-100 font-sans select-none flex flex-col justify-between min-h-[440px] sm:min-h-[460px]">
+              <div className="flex items-center justify-between text-[10px] font-medium text-slate-400 px-2 pt-0.5 pb-2">
+                <span>{simulatedTime}</span>
+                <div className="flex items-center gap-1">
+                  <span>5G</span>
+                  <span className="w-3.5 h-2 bg-emerald-400 rounded-xs" />
+                </div>
+              </div>
 
-            {/* Lock Screen Clock */}
-            <div className="pt-6 text-center">
-              <span className="text-[10px] font-semibold tracking-wide text-slate-300">
-                {new Date().toLocaleDateString(undefined, {
-                  weekday: 'long',
-                  month: 'short',
-                  day: 'numeric',
-                })}
+              <div className="my-auto">
+                <div className="rounded-2xl bg-[#1E2029] border border-slate-700/60 p-3">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-4 rounded-full bg-white p-0.5 flex items-center justify-center overflow-hidden">
+                        <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
+                      </div>
+                      <span className="text-[10px] font-semibold text-slate-400">
+                        Christ Pavilion • now
+                      </span>
+                    </div>
+                  </div>
+
+                  <h4 className="text-xs font-bold text-white leading-snug break-words">
+                    {displayTitle}
+                  </h4>
+                  {displaySubtitle && (
+                    <p className="text-[11px] font-medium text-blue-400 leading-tight mt-0.5">
+                      {displaySubtitle}
+                    </p>
+                  )}
+                  <p className="text-[11px] text-slate-300 leading-relaxed mt-1 line-clamp-3">
+                    {displayBody}
+                  </p>
+
+                  {/* Android BigPicture Preview */}
+                  {displayImage && (
+                    <div className="mt-2.5 rounded-xl overflow-hidden h-28 bg-black/40 border border-slate-700">
+                      <img
+                        src={displayImage}
+                        alt="Banner Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/icon.png';
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="pb-1.5 flex justify-center">
+                <div className="w-16 h-1 bg-slate-600 rounded-full" />
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Compact Card Preview */
+        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-[#27272a] space-y-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">Compact Preview</span>
+            <span className="font-mono text-[11px]">{simulatedTime}</span>
+          </div>
+          <div className="rounded-xl bg-white dark:bg-[#18181b] border border-slate-200 dark:border-[#27272a] p-3 shadow-xs">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <div className="w-4 h-4 rounded bg-white p-0.5 border border-slate-200 dark:border-zinc-700 flex items-center justify-center overflow-hidden">
+                <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
+              </div>
+              <span className="text-[10px] font-bold tracking-wider text-slate-600 dark:text-zinc-300 uppercase">
+                CHRIST PAVILION
               </span>
-              <h1 className="text-4xl font-light tracking-tight text-white/90 font-outfit mt-0.5">
-                {simulatedTime}
-              </h1>
             </div>
-
-            {/* iOS Notification Card */}
-            <div className="my-auto pt-3 pb-2">
-              <div className="relative rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-white/10 p-3">
-                <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded bg-white p-0.5 flex items-center justify-center overflow-hidden">
-                      <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
-                    </div>
-                    <span className="text-[10px] font-bold tracking-wider text-slate-300 uppercase">
-                      CHRIST PAVILION
-                    </span>
-                  </div>
-                  <span className="text-[9px] font-medium text-slate-400">now</span>
-                </div>
-
-                <div className="flex items-start gap-2.5">
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-bold text-white leading-snug break-words">
-                      {displayTitle}
-                    </h4>
-                    {displaySubtitle && (
-                      <p className="text-[10px] font-medium text-blue-300 mt-0.5 truncate">
-                        {displaySubtitle}
-                      </p>
-                    )}
-                    <p className="text-[11px] text-slate-300 mt-0.5 leading-snug line-clamp-3 break-words">
-                      {displayBody}
-                    </p>
-                  </div>
-
-                  {!isExpanded && displayImage && (
-                    <div className="shrink-0 w-10 h-10 rounded-lg overflow-hidden border border-slate-700 bg-slate-800">
-                      <img
-                        src={displayImage}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/icon.png';
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {isExpanded && displayImage && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-slate-700/80 bg-slate-950 aspect-[16/9] relative">
-                    <img
-                      src={displayImage}
-                      alt="Banner Preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/icon.png';
-                      }}
-                    />
-                  </div>
-                )}
+            <h4 className="text-xs font-bold text-slate-900 dark:text-zinc-100">{displayTitle}</h4>
+            {displaySubtitle && <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-0.5">{displaySubtitle}</p>}
+            <p className="text-[11px] text-slate-600 dark:text-zinc-300 mt-1">{displayBody}</p>
+            {displayImage && (
+              <div className="mt-2 rounded-lg overflow-hidden h-28 border border-slate-200 dark:border-zinc-800">
+                <img src={displayImage} alt="Banner" className="w-full h-full object-cover" />
               </div>
-            </div>
-
-            <div className="pb-2 flex justify-center">
-              <div className="w-20 h-1 bg-white/40 rounded-full" />
-            </div>
+            )}
           </div>
-        ) : (
-          /* ================= ANDROID LOCK SCREEN ================= */
-          <div className="w-full max-w-[320px] rounded-[36px] bg-[#121318] border-[5px] border-slate-800 overflow-hidden p-3 relative text-slate-100 font-sans select-none flex flex-col justify-between min-h-[460px]">
-            <div className="flex items-center justify-between text-[10px] font-medium text-slate-400 px-2 pt-0.5 pb-2">
-              <span>{simulatedTime}</span>
-              <div className="flex items-center gap-1">
-                <span>5G</span>
-                <span className="w-3.5 h-2 bg-emerald-400 rounded-xs" />
-              </div>
-            </div>
-
-            <div className="my-auto">
-              <div className="rounded-2xl bg-[#1E2029] border border-slate-700/60 p-3">
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-full bg-white p-0.5 flex items-center justify-center overflow-hidden">
-                      <img src="/icon.png" alt="CP" className="w-full h-full object-contain" />
-                    </div>
-                    <span className="text-[11px] font-semibold text-slate-200">
-                      Christ Pavilion
-                    </span>
-                  </div>
-                  <span className="text-[9px] text-slate-400">now</span>
-                </div>
-
-                <div className="flex items-start gap-2.5">
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-bold text-white leading-snug">
-                      {displayTitle}
-                    </h4>
-                    {displaySubtitle && (
-                      <p className="text-[10px] font-medium text-indigo-300 mt-0.5 truncate">
-                        {displaySubtitle}
-                      </p>
-                    )}
-                    <p className="text-[11px] text-slate-300 mt-0.5 leading-snug line-clamp-3">
-                      {displayBody}
-                    </p>
-                  </div>
-
-                  {!isExpanded && displayImage && (
-                    <div className="shrink-0 w-10 h-10 rounded-xl overflow-hidden bg-slate-800 border border-slate-700">
-                      <img
-                        src={displayImage}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/icon.png';
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {isExpanded && displayImage && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-slate-700 aspect-[16/9] bg-slate-950">
-                    <img
-                      src={displayImage}
-                      alt="Banner Preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/icon.png';
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="pb-1.5 flex justify-center">
-              <div className="w-16 h-1 bg-slate-600 rounded-full" />
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

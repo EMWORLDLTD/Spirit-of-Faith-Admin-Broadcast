@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-outfit font-bold text-sm sm:text-base tracking-tight text-slate-900 dark:text-zinc-100">
+                <span className="font-outfit font-bold text-xs sm:text-base tracking-tight text-slate-900 dark:text-zinc-100 truncate max-w-[110px] xs:max-w-[160px] sm:max-w-none">
                   Christ Pavilion
                 </span>
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-400 dark:border-blue-800">

@@ -14,11 +14,12 @@ import { SettingsModal } from './components/SettingsModal';
 import { ToastContainer } from './components/ToastContainer';
 import { PwaInstallBanner } from './components/PwaInstallBanner';
 import { BroadcastHistoryItem, AnnouncementItem } from './types';
-import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { ShieldCheck, Heart, Sparkles, Radio, Eye } from 'lucide-react';
 
 const AdminPortalMain: React.FC = () => {
   const { auth, activeDraft, updateActiveDraft, pollerStatus, setSavedTestToken } = useAdmin();
   const [activeTab, setActiveTab] = useState<'composer' | 'feed' | 'history' | 'poller' | 'devices'>('composer');
+  const [mobileComposerView, setMobileComposerView] = useState<'form' | 'preview'>('form');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [safetyModal, setSafetyModal] = useState<{
     isOpen: boolean;
@@ -111,20 +112,50 @@ const AdminPortalMain: React.FC = () => {
 
         {/* Tab 1: Broadcast Composer & Live Lock-Screen Simulator */}
         {activeTab === 'composer' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-            {/* Left/Main Column: Broadcast Composer */}
-            <div className="lg:col-span-7 space-y-5">
-              <BroadcastComposer
-                onOpenTestModal={() => setSafetyModal({ isOpen: true, type: 'test' })}
-                onOpenBroadcastModal={() =>
-                  setSafetyModal({ isOpen: true, type: 'broadcastAll' })
-                }
-              />
+          <div>
+            {/* Mobile-Only Segmented Control: Form vs Preview */}
+            <div className="flex lg:hidden items-center p-1 bg-slate-200/80 dark:bg-zinc-900 rounded-xl mb-3.5 border border-slate-300/60 dark:border-[#27272a]">
+              <button
+                type="button"
+                onClick={() => setMobileComposerView('form')}
+                className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  mobileComposerView === 'form'
+                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-xs'
+                    : 'text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100'
+                }`}
+              >
+                <Radio className="w-3.5 h-3.5 text-blue-500" />
+                <span>Notice Form</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileComposerView('preview')}
+                className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  mobileComposerView === 'preview'
+                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-xs'
+                    : 'text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100'
+                }`}
+              >
+                <Eye className="w-3.5 h-3.5 text-blue-500" />
+                <span>Live Preview</span>
+              </button>
             </div>
 
-            {/* Right Column: Live Lock-Screen Simulator */}
-            <div className="lg:col-span-5 lg:sticky lg:top-20">
-              <LockScreenSimulator draft={activeDraft} />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+              {/* Left Column: Broadcast Composer */}
+              <div className={`lg:col-span-7 space-y-5 ${mobileComposerView === 'preview' ? 'hidden lg:block' : 'block'}`}>
+                <BroadcastComposer
+                  onOpenTestModal={() => setSafetyModal({ isOpen: true, type: 'test' })}
+                  onOpenBroadcastModal={() =>
+                    setSafetyModal({ isOpen: true, type: 'broadcastAll' })
+                  }
+                />
+              </div>
+
+              {/* Right Column: Live Lock-Screen Simulator */}
+              <div className={`lg:col-span-5 lg:sticky lg:top-20 ${mobileComposerView === 'form' ? 'hidden lg:block' : 'block'}`}>
+                <LockScreenSimulator draft={activeDraft} />
+              </div>
             </div>
           </div>
         )}

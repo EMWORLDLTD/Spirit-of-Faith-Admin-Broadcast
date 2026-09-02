@@ -524,13 +524,13 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ onDuplicateToComposer 
                 </div>
 
                 {/* Footer Section: Published Time & Actions */}
-                <div className="pt-2.5 border-t border-slate-100 dark:border-[#27272a] flex items-center justify-between gap-2">
+                <div className="pt-2.5 border-t border-slate-100 dark:border-[#27272a] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <span className="text-[10px] text-slate-400 dark:text-zinc-500">
                     {new Date(item.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })} at{' '}
                     {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center flex-wrap gap-1.5">
                     {/* Edit Notice In-Place */}
                     <button
                       onClick={() => openEditModal(item)}
