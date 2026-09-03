@@ -1,10 +1,20 @@
 import { BroadcastHistoryItem, PresetTemplate, TeachingItem } from '../types';
 
+export const getTodaysDevotionalArtworkUrl = (): string => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  return `https://res.cloudinary.com/ggfhaver/image/upload/c_fill,w_1080,h_1080,q_auto:best,f_auto/devotionals/${yyyy}_${mm}_${dd}.jpg`;
+};
+
 export const OFFICIAL_CHURCH_ASSETS = {
   logo: '/icon.png',
   sermonArtwork: 'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?q=80&w=800&auto=format&fit=crop',
   sermonGrace: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=800&auto=format&fit=crop',
-  devotionalArtwork: 'https://res.cloudinary.com/ggfhaver/image/upload/c_fill,w_1080,h_1080,q_auto:best,f_auto/devotionals/2026_08_28.jpg',
+  get devotionalArtwork() {
+    return getTodaysDevotionalArtworkUrl();
+  },
   eventArtwork: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
   announcementArtwork: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop',
   prayerArtwork: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=800&auto=format&fit=crop',
@@ -33,7 +43,9 @@ export const PRESET_TEMPLATES: PresetTemplate[] = [
     title: 'Today’s Word: Walking in God’s Peace',
     subtitle: 'Daily Faith Walk',
     body: 'Start your morning in God’s presence with today’s scripture meditation, faith confession, and prayer focus.',
-    imageUrl: OFFICIAL_CHURCH_ASSETS.devotionalArtwork,
+    get imageUrl() {
+      return getTodaysDevotionalArtworkUrl();
+    },
     data: {
       type: 'devotional',
       devotionalDate: new Date().toISOString().split('T')[0],

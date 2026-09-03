@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { NotificationType, PresetTemplate } from '../types';
-import { PRESET_TEMPLATES } from '../data/mockData';
+import { PRESET_TEMPLATES, getTodaysDevotionalArtworkUrl } from '../data/mockData';
 import {
   Volume2,
   BookOpen,
@@ -40,8 +40,9 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
   } = useAdmin();
 
   const [showPayloadDetails, setShowPayloadDetails] = useState(false);
+  const [showScheduleDetails, setShowScheduleDetails] = useState(false);
 
-  const typeOptions: {
+  const NOTIFICATION_TYPES: {
     type: NotificationType;
     label: string;
     description: string;
@@ -50,13 +51,13 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
     {
       type: 'audio',
       label: 'Audio Teaching',
-      description: 'Sunday sermons & audio series',
+      description: 'Sermons & messages',
       icon: <Volume2 className="w-4 h-4 text-blue-400" />,
     },
     {
       type: 'devotional',
       label: 'Daily Devotional',
-      description: 'Daily scripture & readings',
+      description: 'Morning devotionals',
       icon: <BookOpen className="w-4 h-4 text-amber-400" />,
     },
     {
@@ -74,17 +75,8 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
   ];
 
   const handleTypeChange = (newType: NotificationType) => {
-    let newImageUrl = activeDraft.imageUrl;
-    if (newType === 'devotional') {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      newImageUrl = `https://res.cloudinary.com/ggfhaver/image/upload/c_fill,w_1080,h_1080,q_auto:best,f_auto/devotionals/${yyyy}_${mm}_${dd}.jpg`;
-    }
     updateActiveDraft({
       type: newType,
-      imageUrl: newImageUrl,
       data: {
         ...activeDraft.data,
         type: newType,
@@ -214,16 +206,29 @@ export const BroadcastComposer: React.FC<BroadcastComposerProps> = ({
               <ImageIcon className="w-3.5 h-3.5 text-blue-500" />
               Image URL (Optional)
             </label>
-            {activeDraft.imageUrl ? (
-              <button
-                type="button"
-                onClick={() => updateActiveDraft({ imageUrl: '' })}
-                className="text-[11px] text-red-500 hover:text-red-600 font-semibold flex items-center gap-1"
-              >
-                <X className="w-3 h-3" />
-                Remove Image
-              </button>
-            ) : null}
+            <div className="flex items-center gap-2">
+              {activeDraft.type === 'devotional' && !activeDraft.imageUrl ? (
+                <button
+                  type="button"
+                  onClick={() => updateActiveDraft({ imageUrl: getTodaysDevotionalArtworkUrl() })}
+                  className="text-[11px] text-blue-600 hover:text-blue-700 dark:text-blue-400 font-semibold flex items-center gap-1"
+                >
+                  <Sparkles className="w-3 h-3 text-amber-500" />
+                  Attach Today's Devotional Cover
+                </button>
+              ) : null}
+
+              {activeDraft.imageUrl ? (
+                <button
+                  type="button"
+                  onClick={() => updateActiveDraft({ imageUrl: '' })}
+                  className="text-[11px] text-red-500 hover:text-red-600 font-semibold flex items-center gap-1"
+                >
+                  <X className="w-3 h-3" />
+                  Remove Image
+                </button>
+              ) : null}
+            </div>
           </div>
           <input
             id="composer-input-image-url"
